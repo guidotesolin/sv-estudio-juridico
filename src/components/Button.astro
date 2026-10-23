@@ -1,0 +1,48 @@
+---
+interface Props {
+  variant?: "primary" | "ghost" | "beige";
+  href?: string;
+}
+
+const { variant = "primary", href } = Astro.props;
+const Tag = href ? "a" : "button";
+---
+
+<Tag
+  href={href}
+  type={href ? undefined : "button"}
+  class:list={["button", `button--${variant}`]}
+>
+  <slot />
+</Tag>
+
+<style>
+  .button {
+    display: inline-block;
+    padding: 10px 20px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-control);
+    font: inherit;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.5;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .button--primary {
+    background: var(--color-primary);
+    color: #fff;
+  }
+
+  .button--ghost {
+    background: var(--color-card);
+    border-color: var(--color-border);
+    color: var(--color-primary);
+  }
+
+  .button--beige {
+    background: var(--color-beige);
+    color: var(--color-dark);
+  }
+</style>

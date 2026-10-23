@@ -1,0 +1,33 @@
+---
+interface Props {
+  variant: "dark" | "beige";
+  id?: string;
+}
+
+const { variant, id } = Astro.props;
+---
+
+<section id={id} class:list={["band", `band--${variant}`]}>
+  <div class="container">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .band {
+    padding-block: 48px;
+  }
+
+  .band--beige {
+    background: var(--color-beige);
+  }
+
+  .band--dark {
+    background: var(--color-dark);
+    color: var(--color-canvas);
+  }
+
+  .band--dark :global(:focus-visible) {
+    outline-color: var(--color-beige);
+  }
+</style>
