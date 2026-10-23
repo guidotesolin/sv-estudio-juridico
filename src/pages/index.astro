@@ -1,10 +1,38 @@
-<html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SV | Estudio Jurídico</title>
-  </head>
-  <body>
-    <h1>SV | Estudio Jurídico — en construcción</h1>
-  </body>
-</html>
+---
+// Placeholder until T2 builds the home page; shows the T1 design system.
+import Band from "../components/Band.astro";
+import Button from "../components/Button.astro";
+import Card from "../components/Card.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="SV | Estudio Jurídico"
+  description="Sitio en construcción de SV | Estudio Jurídico, Santa Fe."
+>
+  <section class="container section">
+    <p class="label">En construcción</p>
+    <h1>SV | Estudio Jurídico</h1>
+    <p>
+      <Button href="/cotizar">Cotizar mi caso</Button>
+      <Button variant="ghost">Botón secundario</Button>
+    </p>
+    <Card>
+      <h3>Sucesiones</h3>
+      <p>Herencias y declaratoria</p>
+    </Card>
+  </section>
+
+  <Band variant="beige">
+    <h2>Cómo trabajamos</h2>
+  </Band>
+
+  <Band variant="dark">
+    <h2>¿Ya tenés un expediente en curso?</h2>
+    <p>
+      <Button variant="beige" href="/expediente">
+        Pedir revisión
+      </Button>
+    </p>
+  </Band>
+</BaseLayout>
