@@ -1,0 +1,100 @@
+<!doctype html>
+<!--
+  Mockup v1 — approved as visual direction during planning (2026-10-23).
+  Reference for T1 (design system) and T2 (home). Copy and amounts are placeholders.
+  Not production code: Google Fonts and the Tabler CDN are used here only for the preview;
+  the real site self-hosts Figtree (see ARCHITECTURE.md, "Security").
+-->
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SV mockup v1</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css" />
+    <style>
+      :root {
+        --canvas: #fbf8f2;
+        --card: #ffffff;
+        --beige: #efe6d8;
+        --border: #e8e0d2;
+        --text: #1d3329;
+        --text-2: #4d6359;
+        --text-3: #6b7f74;
+        --primary: #24493b;
+        --dark: #1f3d33;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; padding: 24px 16px; background: #f1ece2; font-family: Figtree, sans-serif; color: var(--text); }
+      .sv { max-width: 1040px; margin: 0 auto 24px; background: var(--canvas); border-radius: 16px; overflow: hidden; border: 1px solid var(--border); }
+      h1, h3 { margin: 0; color: var(--text); }
+      .btn { display: inline-block; padding: 10px 18px; border-radius: 24px; font-weight: 600; font-size: 14px; margin: 4px; }
+      .p { background: var(--primary); color: #fff; }
+      .g { border: 1px solid #d9cfbf; color: var(--primary); background: #fff; }
+      .card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 16px; box-shadow: 0 12px 48px rgba(31, 61, 51, 0.06); }
+      .lbl { font-size: 12px; letter-spacing: 0.08em; color: var(--text-3); text-transform: uppercase; }
+      .opt { border: 1px solid var(--border); border-radius: 14px; padding: 10px 12px; font-size: 14px; background: #fff; }
+      .on { border: 2px solid var(--primary); background: #eef3ef; }
+      .grid4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+      .icon { font-size: 22px; color: var(--primary); }
+    </style>
+  </head>
+  <body>
+    <div class="sv">
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; padding: 14px 24px; border-bottom: 1px solid var(--border); font-size: 14px">
+        <b style="font-weight: 800; font-size: 17px">SV <span style="font-weight: 400; color: var(--text-3)">| Estudio Jurídico</span></b>
+        <span style="color: var(--text-2)">Servicios · Cómo trabajamos · Sobre el estudio · Preguntas</span>
+        <span class="btn p">Reservar consulta</span>
+      </div>
+      <div style="padding: 48px 24px 32px; text-align: center">
+        <div class="lbl">Asesoramiento · Estrategia · Gestión</div>
+        <h1 style="font-size: clamp(30px, 5vw, 48px); font-weight: 800; letter-spacing: -0.5px; line-height: 1.1; margin: 12px 0">
+          Soluciones jurídicas claras.<br />Un camino concreto para avanzar.
+        </h1>
+        <p style="color: var(--text-2); font-size: 16px; max-width: 480px; margin: 0 auto 20px">
+          Te asesoramos, definimos la estrategia y gestionamos tu caso, con precios a la vista.
+        </p>
+        <span class="btn p">Cotizar mi caso</span>
+        <span class="btn g">Reservar una consulta</span>
+        <span class="btn g">Ya tengo un expediente</span>
+      </div>
+      <div class="grid4" style="padding: 0 24px 32px">
+        <div class="card"><i class="ti ti-home-heart icon"></i><h3 style="font-size: 16px; font-weight: 700; margin-top: 6px">Sucesiones</h3><p style="font-size: 13px; color: var(--text-3); margin: 4px 0 0">Herencias y declaratoria</p></div>
+        <div class="card"><i class="ti ti-briefcase icon"></i><h3 style="font-size: 16px; font-weight: 700; margin-top: 6px">Laboral</h3><p style="font-size: 13px; color: var(--text-3); margin: 4px 0 0">Despidos e indemnizaciones</p></div>
+        <div class="card"><i class="ti ti-car-crash icon"></i><h3 style="font-size: 16px; font-weight: 700; margin-top: 6px">Daños</h3><p style="font-size: 13px; color: var(--text-3); margin: 4px 0 0">Accidentes y seguros</p></div>
+        <div class="card"><i class="ti ti-file-text icon"></i><h3 style="font-size: 16px; font-weight: 700; margin-top: 6px">Civil y otros</h3><p style="font-size: 13px; color: var(--text-3); margin: 4px 0 0">Contratos y deudas</p></div>
+      </div>
+      <div class="grid4" style="background: var(--beige); padding: 24px; font-size: 14px">
+        <div><b style="font-size: 24px; font-weight: 800">1</b><br />Contanos tu situación</div>
+        <div><b style="font-size: 24px; font-weight: 800">2</b><br />Recibí un rango</div>
+        <div><b style="font-size: 24px; font-weight: 800">3</b><br />Elegí día y hora</div>
+        <div><b style="font-size: 24px; font-weight: 800">4</b><br />Definí cómo avanzar</div>
+      </div>
+      <div style="background: var(--dark); padding: 32px 24px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: center">
+        <h3 style="color: var(--canvas); font-size: 24px; font-weight: 800">¿Ya tenés un expediente en curso?</h3>
+        <span class="btn" style="background: var(--beige); color: var(--dark)">Pedir revisión</span>
+      </div>
+    </div>
+
+    <div class="sv" style="padding: 24px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px">
+      <div>
+        <div class="lbl">Cotizá tu caso · paso 2 de 4</div>
+        <h3 style="font-size: 20px; font-weight: 800; margin: 6px 0 12px">¿En qué etapa está la sucesión?</h3>
+        <div style="display: grid; gap: 8px">
+          <div class="opt on">Todavía no inicié nada</div>
+          <div class="opt">Ya hay un expediente en curso</div>
+          <div class="opt">Necesito una etapa puntual</div>
+        </div>
+        <div style="margin-top: 14px"><span class="btn g">Atrás</span><span class="btn p">Siguiente</span></div>
+      </div>
+      <div class="card" style="background: var(--beige); border-color: #e0d4c0">
+        <div class="lbl">Estimación orientativa</div>
+        <div style="font-size: 28px; font-weight: 800; margin: 6px 0">$ 900.376,32</div>
+        <p style="font-size: 13px; color: var(--text-2); margin: 0 0 10px">Declaratoria de herederos · 6 JUS. Tasas y gastos aparte. Pagable en cuotas.</p>
+        <p style="font-size: 13px; color: var(--text-2); margin: 0 0 12px">La consulta se abona y se descuenta del total si iniciás el trabajo con el estudio.</p>
+        <span class="btn p">Reservar consulta</span>
+      </div>
+    </div>
+  </body>
+</html>
