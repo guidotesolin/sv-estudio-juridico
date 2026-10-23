@@ -1,0 +1,5 @@
+# Vendored as upstream ships it, so anti-slop updates merge cleanly
+tools/oxlint/anti-slop/
+# Hand-written docs, not reformatted
+CLAUDE.md
+docs/
