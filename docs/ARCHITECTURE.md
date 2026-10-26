@@ -70,11 +70,14 @@ monthly retainer for businesses ("abono"), blog, analytics.
 The palette is the one ChatGPT proposed (dark green, beige, white) — maintainer decision. Structure
 and components follow the Refero "cord.com" style
 (<https://styles.refero.design/style/485ae5fb-8f25-4aa3-a4e4-1deb1590d7d6>): centered stacked hero,
-heavy display headlines, rounded cards, one full-bleed dark band near the end, sticky top bar with a
-text wordmark.
+heavy display headlines, rounded cards, one inset dark banner near the end, sticky top bar with a
+text wordmark. The full extraction, with notes from the live site, is
+[design/cord-style-reference.md](./design/cord-style-reference.md): it is the reference for scale,
+spacing and interaction; its navy/blue palette does not apply.
 
-The approved mockup is [design/mockup-v1.html](./design/mockup-v1.html). Open it in a browser; it is
-the visual reference for T1 and T2. Its copy and amounts are placeholders.
+The approved mockup is [design/mockup-v1.html](./design/mockup-v1.html): it fixes the structure and
+copy of the home. It is a compressed preview, so for proportions (hero size, section headings,
+banner) the cord reference wins. Its copy and amounts are placeholders.
 
 ### Tokens
 
@@ -88,14 +91,31 @@ the visual reference for T1 and T2. Its copy and amounts are placeholders.
 | `--color-text-secondary` | `#4d6359` | Supporting copy |
 | `--color-text-muted` | `#6b7f74` | Labels, meta |
 | `--color-primary` | `#24493b` | Primary buttons, active states, icons — the only accent |
-| `--color-dark` | `#1f3d33` | Full-bleed dark band |
-| `--color-selected` | `#eef3ef` | Selected option background |
+| `--color-dark` | `#1f3d33` | Dark closing banner (gradient from `--color-primary`) |
+| `--color-selected` | `#eef3ef` | Selected option background, icon tiles, ghost button hover |
+| `--color-primary-hover` | `#1b382d` | Primary button hover |
+| `--color-beige-hover` | `#e4d7c2` | Beige button hover |
 
 - **Type**: Figtree 400 body, 600 emphasis and buttons, 700 subheadings, 800 display. Display uses
-  negative tracking (about −0.5px at 48px). Body line-height 1.5, display 1.1.
+  negative tracking (about −0.5px). Home hero `clamp(40px, 6vw, 72px)` at line-height 1 (cord uses
+  100px; our headline is longer and 72px is the most that keeps it on two lines); section headings
+  `clamp(32px, 5vw, 48px)` weight 700 with an 18px lead line. Body line-height 1.5.
 - **Shape**: cards 20px radius, buttons and inputs 24px, options 14px. No corner under 8px.
 - **Shadows**: tinted green, `rgba(31, 61, 51, 0.04–0.08)`; e.g. cards `0 12px 48px`. No gray shadows.
 - **Layout**: max width 1200px, 4px spacing base, 64px between sections, 16px side gutter on mobile.
+  Home hero padding `clamp(64px, 14vw, 180px)`. The dark banner is inset in the container (radius
+  up to 80px, padding up to 60px), not full-bleed.
+- **Motion** (rules from the `emil-design-eng` / `review-animations` skills): hover and color
+  changes use `--transition` (0.15s `ease`); entrances and movement use `--ease-out`
+  (`cubic-bezier(0.23, 1, 0.32, 1)`). Every pressable gets `:active` feedback (`scale(0.97)`, cards
+  `0.98`, 160ms). Hero and area cards enter with opacity + 8px `translateY` (400ms, 80ms stagger);
+  card arrows nudge 4px on hover. `prefers-reduced-motion` keeps the fades and drops every
+  transform. No `transition: all`, no `ease-in`, UI motion under 300ms.
+- **Touch** (`mobile-native` skill): every `:hover` lives inside
+  `@media (hover: hover) and (pointer: fine)` and has an `:active` twin; `global.css` sets
+  `-webkit-tap-highlight-color: transparent`, `-webkit-text-size-adjust: 100%`,
+  `touch-action: manipulation` on `a, button, summary` and `user-select: none` on controls only.
+  Inputs (T5) use at least 16px text. `theme-color` matches the header (`#fbf8f2`).
 - **One accent only.** No second brand color.
 - **Logo**: text wordmark "SV | Estudio Jurídico" (no logo exists).
 - **Imagery**: the design works without photos. `/estudio` keeps one slot for a portrait.

@@ -19,15 +19,22 @@ const Tag = href ? "a" : "button";
 <style>
   .button {
     display: inline-block;
-    padding: 10px 20px;
+    padding: 12px 20px;
     border: 1px solid transparent;
     border-radius: var(--radius-control);
     font: inherit;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
     line-height: 1.5;
     text-decoration: none;
     cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    transition:
+      background-color var(--transition),
+      border-color var(--transition),
+      box-shadow var(--transition),
+      transform 160ms var(--ease-out);
   }
 
   .button--primary {
@@ -44,5 +51,32 @@ const Tag = href ? "a" : "button";
   .button--beige {
     background: var(--color-beige);
     color: var(--color-dark);
+  }
+
+  /* Touch fakes a sticky :hover on tap; only real pointers get it. */
+  @media (hover: hover) and (pointer: fine) {
+    .button:hover {
+      box-shadow: var(--shadow-hover);
+    }
+
+    .button--primary:hover {
+      background: var(--color-primary-hover);
+    }
+
+    .button--ghost:hover {
+      background: var(--color-selected);
+      border-color: var(--color-primary);
+    }
+
+    .button--beige:hover {
+      background: var(--color-beige-hover);
+    }
+  }
+
+  /* Press feedback for every input; dropped with reduced motion. */
+  @media (prefers-reduced-motion: no-preference) {
+    .button:active {
+      transform: scale(0.97);
+    }
   }
 </style>
