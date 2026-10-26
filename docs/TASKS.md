@@ -27,7 +27,8 @@
 | T5 | `t5-quote-ui` | T1, T4 |
 | T6 | `t6-booking` | T5 |
 | T7 | `t7-studio-faq-legal` | T1 |
-| T8 | `t8-seo-deploy` | T2, T3, T5, T6, T7 |
+| T8 | `t8-visual-identity` | T2, T3, T5, T6, T7 |
+| T9 | `t9-seo-deploy` | T8 |
 
 ---
 
@@ -224,11 +225,59 @@ _Commit_: `feat(pages): add about, faq and legal notices`
 
 ---
 
-### T8 — SEO, security headers and deploy
+### T8 — Visual identity and launch content
 
-Per-page `<title>` and meta description, Open Graph tags with a simple generated image (text on
-green, built at build time or a static PNG), `@astrojs/sitemap` (needs `site` in `astro.config` —
-use a placeholder domain until B5), `robots.txt`, favicon from the wordmark. `public/_headers` with
+The last pass before going live: every page gets the finish the home got in T2, and the client
+values that the site cannot launch without replace their placeholders. Read
+[design/cord-style-reference.md](./design/cord-style-reference.md) and ARCHITECTURE.md "Visual
+design" (Motion, Touch) first; the home (`src/pages/index.astro`) is the reference implementation.
+
+**Identity assets.** An SVG of the text wordmark (Figtree 800 "SV" + 400 "| Estudio Jurídico", as
+in the header) and an "SV" monogram derived from it, both in `src/assets/` — unless the client
+provides a logo, in which case use that and note it. From them: the favicon set
+(`public/favicon.svg` + a 180px `apple-touch-icon.png`) and the Open Graph image (1200×630, wordmark
+on `--color-dark`, static PNG in `public/`). T9 only wires the tags.
+
+**Every page to the home's bar.** `/servicios/*`, `/cotizar`, `/expediente`, `/estudio`,
+`/preguntas`: section heading scale, cards with gated hover and `:active` feedback, the inset dark
+banner where a page closes on a CTA, motion and touch rules from ARCHITECTURE.md. Fixes to shared
+components go in the component, not per page. Run the `review-animations` and `mobile-native`
+skills over every page and fix what they flag (or note why not).
+
+**Footer.** Replace the T1 footer with cord's column layout: wordmark + one-line description;
+Servicios (the four areas); Estudio (`/estudio`, `/preguntas`, `/expediente`); Contacto (WhatsApp,
+email, "Atención presencial y remota · Santa Fe"). Privacy note and disclaimer stay below the
+columns, unchanged.
+
+**Launch content from the backlog.** Requires the client's answers before starting; any item not
+provided stays a placeholder, keeps its backlog row open, and is listed in the delivery note.
+- B1: lawyer's name, matrícula and bio replace the T7 placeholders; the portrait goes in
+  `src/assets/` through `astro:assets` (`<Image>`, responsive, 20px radius, natural color).
+- B4: real WhatsApp number and email in `src/data/site.ts`.
+- B6: real `calUsername` in `src/data/site.ts`, once the account and the three event types exist.
+- B9: apply the client's corrections to the draft copy (home, service pages, quote questions).
+- B2, only if provided: fees in `src/data/prices.ts`. Not a launch blocker — `null` already shows
+  "a confirmar".
+
+_Output_: `src/assets/` (wordmark, monogram, portrait), `public/favicon.svg`,
+`public/apple-touch-icon.png`, `public/og.png`, footer in `src/layouts/BaseLayout.astro`, page and
+component polish, `src/data/site.ts`, updated ARCHITECTURE.md "Visual design" (mockup marked as
+superseded), backlog rows closed.
+_Acceptance_: lint, check and build pass; side by side at 360px and 1280px every page reads as the
+same site as the home (no horizontal scroll, visible focus, AA contrast on every new pair); no
+ungated `:hover` in `dist/_astro/*.css`; the `review-animations` verdict is Approve for every page;
+`grep -rn "\[Nombre de la abogada\]\|\[Matrícula\]\|5490000000000\|contacto@example.com" src`
+is empty, or each remaining hit is a value the client hasn't provided and is listed in the delivery
+note; on a real phone (maintainer): no sticky hover, no tap flash, press feedback on every control.
+_Commit_: `feat(ui): finish visual identity and launch content`
+
+---
+
+### T9 — SEO, security headers and deploy
+
+Per-page `<title>` and meta description, Open Graph tags using T8's `public/og.png`,
+`@astrojs/sitemap` (needs `site` in `astro.config` — use a placeholder domain until B5),
+`robots.txt`, favicon links to T8's assets. `public/_headers` with
 the headers in ARCHITECTURE.md "Security"; set `build.inlineStylesheets: "never"` or allow
 `style-src 'self' 'unsafe-inline'` — decide by checking `dist/` and note the choice in
 ARCHITECTURE.md. **`script-src` must be `'self'` only**: if Astro inlines a script, move it to an
@@ -240,7 +289,8 @@ _Output_: SEO tags, `public/_headers`, `public/robots.txt`, sitemap config, READ
 _Acceptance_: lint, check and build pass; `dist/sitemap-index.xml` exists; `grep -rnP '<script(?![^>]*\bsrc=)[^>]*>' dist`
 finds no inline scripts (JSON-LD, if added, is the only allowed exception); once deployed (maintainer): securityheaders.com grade A or better,
 Lighthouse ≥ 95 in Performance, Accessibility, Best Practices and SEO on `/` and `/cotizar`, and the
-browser console shows no CSP violations while completing a quote.
+browser console shows no CSP violations while completing a quote. If LCP misses the bar, check the
+hero's load fade (it starts at `opacity: 0`) first.
 _Commit_: `feat(seo): add meta, sitemap and security headers`
 
 ---
@@ -252,15 +302,15 @@ who it belongs to. Shortcuts inside code are `ponytail:` comments instead.
 
 | ID | What | Why it was left | Belongs to |
 | -- | ---- | --------------- | ---------- |
-| B1 | Lawyer's full name, matrícula, bio and portrait | Not provided yet | Client → replace T7 placeholders |
+| B1 | Lawyer's full name, matrícula, bio and portrait | Not provided yet | Client → T8 replaces T7 placeholders |
 | B2 | Real fees in JUS for every service; consultation fee; case-file review fee | Only declaratoria (6 JUS) given; no invented numbers ship | Client → maintainer edits `prices.ts` |
 | B3 | Installment terms and consultation payment method/timing | Not provided; payment text lives in Cal.com | Client, in Cal.com confirmation text |
-| B4 | WhatsApp number and contact email | Not provided | Client → `src/data/site.ts` |
+| B4 | WhatsApp number and contact email | Not provided | Client → T8 edits `src/data/site.ts` |
 | B5 | Domain (`.com.ar`, NIC Argentina) | Not bought yet; only mandatory cost | Client/maintainer → `astro.config` `site`, Cloudflare custom domain |
-| B6 | Cal.com account, Google Calendar connection and the three event types | Accounts are created by people, not Claude | Client/maintainer, before T6 hand test |
+| B6 | Cal.com account, Google Calendar connection and the three event types | Accounts are created by people, not Claude | Client/maintainer, before T6 hand test; T8 sets `calUsername` |
 | B7 | Fee amounts vs Santa Fe fee law minimums and bar ethics rules | Legal responsibility of the lawyer, not enforced by code | Client |
 | B8 | 2FA and password manager on GitHub, Cloudflare, Cal.com, Google, NIC Argentina | Not code; the real attack surface | Maintainer and client |
-| B9 | Review of all draft copy, area questions and complexity factors | Drafted from the ChatGPT conversation | Client |
+| B9 | Review of all draft copy, area questions and complexity factors | Drafted from the ChatGPT conversation | Client → T8 applies the corrections |
 | B10 | Online payment of the consultation | Out of v1 scope ("up to the booking") | When the client wants to stop confirming transfers by hand |
 | B11 | Admin panel for fees | Maintainer edits `prices.ts`; one constant covers JUS updates | When fees change often enough to hurt |
 | B12 | Monthly retainer for businesses ("abono") | Out of v1 scope | After v1 is live |
