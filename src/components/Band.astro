@@ -15,16 +15,25 @@ const { variant, id } = Astro.props;
 
 <style>
   .band {
-    padding-block: 48px;
+    padding-block: var(--section-gap);
   }
 
   .band--beige {
     background: var(--color-beige);
   }
 
+  /* Inset closing banner, as on the live cord.com (docs/design/cord-style-reference.md). */
   .band--dark {
-    background: var(--color-dark);
+    width: min(100% - 2 * var(--gutter), var(--max-width) - 2 * var(--gutter));
+    margin: var(--section-gap) auto 0;
+    padding-block: clamp(40px, 6vw, 60px);
+    border-radius: clamp(32px, 6vw, 80px);
+    background: linear-gradient(78deg, var(--color-primary), var(--color-dark));
     color: var(--color-canvas);
+  }
+
+  .band--dark > .container {
+    padding-inline: clamp(var(--gutter), 6vw, 60px);
   }
 
   .band--dark :global(:focus-visible) {

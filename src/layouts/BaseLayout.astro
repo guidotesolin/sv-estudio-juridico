@@ -24,6 +24,7 @@ const navLinks = [
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fbf8f2" />
     <title>{title}</title>
     <meta name="description" content={description} />
   </head>
@@ -126,18 +127,27 @@ const navLinks = [
 
   nav a:not(.button) {
     color: var(--color-text-secondary);
+    font-weight: 600;
     text-decoration: none;
+    transition: color var(--transition);
   }
 
-  nav a:not(.button):hover {
+  /* :active is the tap feedback (the tap highlight is off); :hover only for real pointers. */
+  nav a:not(.button):active {
     color: var(--color-primary);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    nav a:not(.button):hover {
+      color: var(--color-primary);
+    }
   }
 
   .nav-desktop {
     display: none;
     align-items: center;
     gap: 24px;
-    font-size: 15px;
+    font-size: 14px;
   }
 
   .nav-mobile summary {
@@ -149,6 +159,12 @@ const navLinks = [
     color: var(--color-primary);
     font-weight: 600;
     cursor: pointer;
+    transition: background-color var(--transition);
+  }
+
+  .nav-mobile summary:active,
+  .nav-mobile[open] summary {
+    background: var(--color-selected);
   }
 
   .nav-mobile summary::-webkit-details-marker {
