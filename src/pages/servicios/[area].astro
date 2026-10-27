@@ -3,40 +3,8 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import Band from "../../components/Band.astro";
 import Button from "../../components/Button.astro";
 import Card from "../../components/Card.astro";
+import { areas } from "../../data/prices";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-
-// ponytail: local copy of ARCHITECTURE.md "Services per area" until T4 lands; then read the
-// labels from src/data/prices.ts and delete this list.
-const servicesByArea = new Map(
-  Object.entries({
-    sucesiones: [
-      { id: "inicio", label: "Inicio de sucesión" },
-      { id: "declaratoria", label: "Declaratoria de herederos" },
-      { id: "inscripcion", label: "Inscripción de inmuebles y vehículos" },
-      { id: "adjudicacion", label: "Inscripción y adjudicación de bienes" },
-      { id: "conflicto", label: "Sucesión con conflicto entre herederos" },
-    ],
-    laboral: [
-      { id: "telegramas", label: "Intercambio telegráfico" },
-      { id: "liquidacion", label: "Liquidación y revisión de indemnización" },
-      { id: "acuerdo", label: "Revisión de acuerdo o propuesta" },
-      { id: "conciliacion", label: "Conciliación o reclamo administrativo" },
-      { id: "judicial", label: "Representación judicial" },
-    ],
-    danos: [
-      { id: "aseguradora", label: "Reclamo ante la aseguradora" },
-      { id: "negociacion", label: "Negociación de acuerdo" },
-      { id: "judicial", label: "Demanda y representación judicial" },
-    ],
-    civil: [
-      { id: "contrato", label: "Revisión o redacción de contrato" },
-      { id: "intimacion", label: "Carta documento o intimación" },
-      { id: "cobro", label: "Cobro extrajudicial de deuda" },
-      { id: "informe", label: "Informe jurídico o segunda opinión" },
-      { id: "escrito", label: "Escrito o presentación puntual" },
-    ],
-  }),
-);
 
 export async function getStaticPaths() {
   const entries = await getCollection("services");
@@ -56,7 +24,7 @@ const { entry } = Astro.props;
 const { title, headline, summary, notice, documentation, notIncluded } =
   entry.data;
 
-const services = servicesByArea.get(entry.id);
+const services = areas.find((a) => a.id === entry.id)?.services;
 
 if (!services) {
   throw new Error(`No services listed for area "${entry.id}"`);

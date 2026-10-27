@@ -47,10 +47,14 @@ export type Estimate =
       maxJus: number;
       minArs: number;
       maxArs: number;
-      includes: string[];
-      excludes: string[];
+      includes: readonly string[];
+      excludes: readonly string[];
     }
-  | { unconfirmed: true; includes: string[]; excludes: string[] };
+  | {
+      unconfirmed: true;
+      includes: readonly string[];
+      excludes: readonly string[];
+    };
 
 const arsFormat = new Intl.NumberFormat("es-AR", {
   style: "currency",

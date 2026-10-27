@@ -20,17 +20,17 @@ export interface Service {
   id: string;
   label: string;
   fee: Fee | null;
-  includes: string[];
-  excludes: string[];
+  includes: readonly string[];
+  excludes: readonly string[];
 }
 
 export interface Area {
   id: AreaId;
   label: string;
-  services: Service[];
+  services: readonly Service[];
 }
 
-export const areas: Area[] = [
+export const areas: readonly Area[] = [
   {
     id: "sucesiones",
     label: "Sucesiones",

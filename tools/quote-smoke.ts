@@ -53,9 +53,23 @@ check(
     assert.ok(!e.unconfirmed);
 
     assert.equal(e.maxJus, 7.5);
+    assert.equal(normalize(formatArs(e.maxArs)), "$ 1.125.470,40");
     assert.match(buildSummary(answers, e), /a .* \(6 a 7,5 JUS\)/);
   },
 );
+
+check("every confirmed fee has minJus <= maxJus", () => {
+  for (const area of areas) {
+    for (const service of area.services) {
+      if (!service.fee) continue;
+
+      assert.ok(
+        service.fee.minJus <= service.fee.maxJus,
+        `${area.id}/${service.id}`,
+      );
+    }
+  }
+});
 
 check("every fee: null service → unconfirmed with includes", () => {
   for (const area of areas) {
