@@ -1,8 +1,7 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
-import Band from "../../components/Band.astro";
-import Button from "../../components/Button.astro";
 import Card from "../../components/Card.astro";
+import QuoteBand from "../../components/QuoteBand.astro";
 import { areas } from "../../data/prices";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
@@ -80,11 +79,5 @@ if (!services) {
     </Card>
   </div>
 
-  <Band variant="dark">
-    <h2>¿Cuánto cuesta tu caso?</h2>
-    <p>Respondé unas preguntas y recibí un rango de honorarios orientativo.</p>
-    <Button variant="beige" href={`/cotizar?area=${entry.id}`}>
-      Cotizá tu caso <span aria-hidden="true">→</span>
-    </Button>
-  </Band>
+  <QuoteBand area={entry.id} />
 </BaseLayout>

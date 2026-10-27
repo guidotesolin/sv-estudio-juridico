@@ -1,0 +1,209 @@
+---
+import Band from "../components/Band.astro";
+import Button from "../components/Button.astro";
+import { areas, CONSULTATION_FEE_JUS, JUS_VALUE_ARS } from "../data/prices";
+import { whatsappUrl } from "../data/site";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { feeText, formatArs } from "../lib/quote";
+---
+
+<BaseLayout
+  title="Preguntas frecuentes — SV | Estudio Jurídico"
+  description="Honorarios en JUS, consulta, cuotas, plazos, jurisdicción, documentación y privacidad: lo que conviene saber antes de la consulta."
+>
+  <section class="container page-hero">
+    <h1>
+      <span class="label">Preguntas frecuentes</span> Lo que conviene saber
+      antes de la consulta.
+    </h1>
+  </section>
+
+  <div class="container faq">
+    <details>
+      <summary>¿Qué es un JUS?</summary>
+      <p>
+        Es la unidad que usa la ley de honorarios de Santa Fe para fijar los
+        honorarios de los abogados. Su valor en pesos se actualiza
+        periódicamente, por eso expresamos los honorarios en JUS y mostramos
+        cuánto equivalen en pesos al valor vigente. Hoy 1 JUS equivale a{" "}
+        {formatArs(JUS_VALUE_ARS)}.
+      </p>
+    </details>
+
+    <details>
+      <summary>¿Cuánto cuesta mi caso?</summary>
+      <p>
+        Depende del trámite y de su complejidad. En el{" "}
+        <a href="/cotizar">cotizador</a> respondés unas preguntas y ves un rango
+        orientativo. Las tasas, aportes y gastos van aparte. La estimación no
+        crea una relación profesional ni implica la aceptación del caso.
+      </p>
+    </details>
+
+    <details>
+      <summary>¿La consulta se paga?</summary>
+      <p>
+        Sí. La consulta se abona y se descuenta del total si iniciás el trabajo
+        con el estudio. Valor de la consulta: {feeText(CONSULTATION_FEE_JUS)}.
+      </p>
+    </details>
+
+    <details>
+      <summary>¿Puedo pagar en cuotas?</summary>
+      <p>
+        Sí, los honorarios se pueden pagar en cuotas. Las condiciones se
+        acuerdan en la consulta.
+      </p>
+    </details>
+
+    <details>
+      <summary>¿Cuánto tarda un trámite?</summary>
+      <p>
+        Depende del tipo de trámite y de los tiempos del juzgado, los organismos
+        o la otra parte. En la consulta te damos una estimación para tu caso.
+      </p>
+    </details>
+
+    <details>
+      <summary>¿Atienden casos fuera de Santa Fe?</summary>
+      <p>
+        Trabajamos en la provincia de Santa Fe. Los casos de otras
+        jurisdicciones se evalúan en cada consulta.
+      </p>
+    </details>
+
+    <details>
+      <summary>¿Qué documentación llevo a la consulta?</summary>
+      <p>
+        La que tengas sobre tu situación; no hace falta que esté completa para
+        reservar. Cada área tiene su lista:
+      </p>
+      <ul>
+        {areas.map((area) => (
+          <li>
+            <a href={`/servicios/${area.id}`}>{area.label}</a>
+          </li>
+        ))}
+      </ul>
+    </details>
+
+    <details>
+      <summary>¿La consulta es presencial o por videollamada?</summary>
+      <p>
+        Como prefieras: presencial en Santa Fe o por videollamada. Lo elegís al
+        reservar día y hora.
+      </p>
+    </details>
+
+    <details>
+      <summary>¿Qué pasa con mis datos?</summary>
+      <p>
+        Este sitio no guarda datos personales y el cotizador no pide nombres,
+        documentos ni información sensible. Los datos que cargás al reservar los
+        gestionan Cal.com y Google Calendar (Ley 25.326 de Protección de Datos
+        Personales). Lo que nos contás en la consulta está protegido por el
+        secreto profesional.
+      </p>
+    </details>
+  </div>
+
+  <Band variant="dark">
+    <h2>¿Te quedó alguna duda?</h2>
+    <p>Escribinos por WhatsApp y te respondemos.</p>
+    <Button variant="beige" href={whatsappUrl}>
+      Escribinos por WhatsApp <span aria-hidden="true">→</span>
+    </Button>
+  </Band>
+</BaseLayout>
+
+<style>
+  .faq {
+    display: grid;
+    gap: 12px;
+    max-width: 880px;
+  }
+
+  .faq details {
+    background: var(--color-card);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+  }
+
+  .faq summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    border-radius: var(--radius-card);
+    font-size: 18px;
+    font-weight: 600;
+    list-style: none;
+    cursor: pointer;
+    transition:
+      background-color var(--transition),
+      transform 160ms var(--ease-out);
+  }
+
+  .faq summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq summary::after {
+    content: "+";
+    /* Empty alt text keeps the icon out of the question's accessible name; browsers without the
+       syntax drop this line and keep the one above. */
+    content: "+" / "";
+    flex-shrink: 0;
+    color: var(--color-primary);
+    font-size: 24px;
+    line-height: 1;
+    transition: transform 200ms var(--ease-out);
+  }
+
+  .faq details[open] summary {
+    border-radius: var(--radius-card) var(--radius-card) 0 0;
+  }
+
+  .faq details[open] summary::after {
+    transform: rotate(45deg);
+  }
+
+  .faq summary:active {
+    background: var(--color-selected);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .faq summary:hover {
+      background: var(--color-selected);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .faq summary:active {
+      transform: scale(0.97);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .faq summary::after {
+      transition: none;
+    }
+  }
+
+  .faq p,
+  .faq ul {
+    margin: 0;
+    padding: 0 20px 12px;
+    color: var(--color-text-secondary);
+  }
+
+  .faq details > :last-child {
+    padding-bottom: 20px;
+  }
+
+  .faq ul {
+    padding-left: 40px;
+  }
+</style>

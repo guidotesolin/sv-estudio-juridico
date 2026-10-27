@@ -2,7 +2,7 @@
 import Button from "../components/Button.astro";
 import QuoteQuestion from "../components/QuoteQuestion.astro";
 import { areas, CONSULTATION_FEE_JUS } from "../data/prices";
-import { whatsappNumber } from "../data/site";
+import { whatsappUrl } from "../data/site";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { calUrl } from "../lib/booking";
 import { areaQuestions, complexities, feeText, stages } from "../lib/quote";
@@ -31,7 +31,7 @@ const consultationFee = feeText(CONSULTATION_FEE_JUS);
     <noscript>
       <p class="warning">
         El cotizador necesita JavaScript. Podés escribirnos por
-        <a href={`https://wa.me/${whatsappNumber}`}>WhatsApp</a> o
+        <a href={whatsappUrl}>WhatsApp</a> o
         <a href={calUrl("consulta-inicial")}>reservar una consulta</a>.
       </p>
     </noscript>
@@ -134,9 +134,7 @@ const consultationFee = feeText(CONSULTATION_FEE_JUS);
           Si tenés un plazo corriendo, escribinos ya por WhatsApp para
           verificarlo.
         </p>
-        <Button href={`https://wa.me/${whatsappNumber}`}>
-          Escribir por WhatsApp
-        </Button>
+        <Button href={whatsappUrl}>Escribir por WhatsApp</Button>
       </div>
 
       <div class="result">
@@ -402,9 +400,7 @@ const consultationFee = feeText(CONSULTATION_FEE_JUS);
   }
 
   .lead {
-    margin: 16px 0 40px;
-    font-size: 18px;
-    color: var(--color-text-secondary);
+    margin-bottom: 40px;
   }
 
   h2 {

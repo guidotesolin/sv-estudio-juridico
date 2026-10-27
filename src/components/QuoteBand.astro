@@ -1,0 +1,19 @@
+---
+import Band from "./Band.astro";
+import Button from "./Button.astro";
+
+interface Props {
+  // Preselects step 1 of the quote stepper.
+  area?: string;
+}
+
+const { area } = Astro.props;
+---
+
+<Band variant="dark">
+  <h2>¿Cuánto cuesta tu caso?</h2>
+  <p>Respondé unas preguntas y recibí un rango de honorarios orientativo.</p>
+  <Button variant="beige" href={area ? `/cotizar?area=${area}` : "/cotizar"}>
+    Cotizá tu caso <span aria-hidden="true">→</span>
+  </Button>
+</Band>

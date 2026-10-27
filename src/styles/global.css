@@ -132,6 +132,12 @@ a {
   line-height: 1.5;
 }
 
+.lead {
+  margin: 16px 0 0;
+  font-size: 18px;
+  color: var(--color-text-secondary);
+}
+
 .page-blocks {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));

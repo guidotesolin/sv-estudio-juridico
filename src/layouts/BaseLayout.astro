@@ -1,7 +1,7 @@
 ---
 import "../styles/global.css";
 import Button from "../components/Button.astro";
-import { email, whatsappNumber } from "../data/site";
+import { email, whatsappUrl } from "../data/site";
 import { calUrl } from "../lib/booking";
 
 interface Props {
@@ -64,7 +64,7 @@ const navLinks = [
     <footer class="site-footer">
       <div class="container">
         <p class="footer-contact">
-          <a href={`https://wa.me/${whatsappNumber}`}>WhatsApp</a>
+          <a href={whatsappUrl}>WhatsApp</a>
           <a href={`mailto:${email}`}>{email}</a>
           <span>Atención presencial y remota · Santa Fe</span>
         </p>
