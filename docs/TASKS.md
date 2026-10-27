@@ -128,6 +128,9 @@ _Output_: `src/content.config.ts`, `src/content/services/*.md`, `src/pages/servi
 _Acceptance_: lint, check and build pass; `ls dist/servicios` shows exactly 4 directories; each page
 has the `/cotizar?area=<area>` link; a missing required frontmatter field fails the build (try it).
 _Commit_: `feat(services): add service pages from content collection`
+_Delivered_: T4 was not merged, so the services list is a local copy in
+`src/pages/servicios/[area].astro` (`ponytail:` comment); replace it with the `prices.ts` import
+once T4 lands.
 
 ---
 

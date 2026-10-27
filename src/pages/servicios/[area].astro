@@ -1,0 +1,191 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import Band from "../../components/Band.astro";
+import Button from "../../components/Button.astro";
+import Card from "../../components/Card.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+// ponytail: local copy of ARCHITECTURE.md "Services per area" until T4 lands; then read the
+// labels from src/data/prices.ts and delete this list.
+const servicesByArea = new Map(
+  Object.entries({
+    sucesiones: [
+      { id: "inicio", label: "Inicio de sucesión" },
+      { id: "declaratoria", label: "Declaratoria de herederos" },
+      { id: "inscripcion", label: "Inscripción de inmuebles y vehículos" },
+      { id: "adjudicacion", label: "Inscripción y adjudicación de bienes" },
+      { id: "conflicto", label: "Sucesión con conflicto entre herederos" },
+    ],
+    laboral: [
+      { id: "telegramas", label: "Intercambio telegráfico" },
+      { id: "liquidacion", label: "Liquidación y revisión de indemnización" },
+      { id: "acuerdo", label: "Revisión de acuerdo o propuesta" },
+      { id: "conciliacion", label: "Conciliación o reclamo administrativo" },
+      { id: "judicial", label: "Representación judicial" },
+    ],
+    danos: [
+      { id: "aseguradora", label: "Reclamo ante la aseguradora" },
+      { id: "negociacion", label: "Negociación de acuerdo" },
+      { id: "judicial", label: "Demanda y representación judicial" },
+    ],
+    civil: [
+      { id: "contrato", label: "Revisión o redacción de contrato" },
+      { id: "intimacion", label: "Carta documento o intimación" },
+      { id: "cobro", label: "Cobro extrajudicial de deuda" },
+      { id: "informe", label: "Informe jurídico o segunda opinión" },
+      { id: "escrito", label: "Escrito o presentación puntual" },
+    ],
+  }),
+);
+
+export async function getStaticPaths() {
+  const entries = await getCollection("services");
+
+  return entries.map((entry) => ({
+    params: { area: entry.id },
+    props: { entry },
+  }));
+}
+
+interface Props {
+  entry: CollectionEntry<"services">;
+}
+
+const { entry } = Astro.props;
+const { title, headline, summary, documentation, notIncluded } = entry.data;
+const services = servicesByArea.get(entry.id);
+
+if (!services) {
+  throw new Error(`No services listed for area "${entry.id}"`);
+}
+---
+
+<BaseLayout title={`${title} — SV | Estudio Jurídico`} description={summary}>
+  <section class="container hero">
+    <p class="label">{title}</p>
+    <h1>{headline}</h1>
+  </section>
+
+  <div class="container blocks">
+    <Card>
+      <h2>Qué resolvemos</h2>
+      <p>{summary}</p>
+      {entry.id === "danos" && (
+        <p class="notice">
+          No se garantiza un resultado: cada caso depende de los hechos y las
+          pruebas disponibles.
+        </p>
+      )}
+    </Card>
+
+    <Card>
+      <h2>Qué incluye</h2>
+      <ul>
+        {services.map((service) => (
+          <li>{service.label}</li>
+        ))}
+      </ul>
+    </Card>
+
+    <Card>
+      <h2>Documentación para la consulta</h2>
+      <ul>
+        {documentation.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    </Card>
+
+    <Card>
+      <h2>Cómo se cobra</h2>
+      <p>
+        Honorarios según ley arancelaria, expresados en JUS. Pagable en cuotas.
+      </p>
+    </Card>
+
+    <Card>
+      <h2>Qué no incluye</h2>
+      <ul>
+        {notIncluded.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    </Card>
+  </div>
+
+  <Band variant="dark">
+    <div class="cta">
+      <h2>¿Cuánto cuesta tu caso?</h2>
+      <p>
+        Respondé unas preguntas y recibí un rango de honorarios orientativo.
+      </p>
+      <Button variant="beige" href={`/cotizar?area=${entry.id}`}>
+        Cotizá tu caso <span aria-hidden="true">→</span>
+      </Button>
+    </div>
+  </Band>
+</BaseLayout>
+
+<style>
+  .hero {
+    max-width: 880px;
+    padding-block: clamp(48px, 8vw, 96px) 40px;
+    text-align: center;
+  }
+
+  .hero h1 {
+    margin-top: 16px;
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 700;
+  }
+
+  .blocks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+  }
+
+  .blocks h2 {
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .blocks p,
+  .blocks ul {
+    margin: 12px 0 0;
+    color: var(--color-text-secondary);
+  }
+
+  .blocks ul {
+    padding-left: 20px;
+  }
+
+  .blocks li + li {
+    margin-top: 6px;
+  }
+
+  .blocks .notice {
+    padding: 12px 16px;
+    border-radius: var(--radius-option);
+    background: var(--color-beige);
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  .cta {
+    max-width: 720px;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .cta h2 {
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 700;
+  }
+
+  .cta p {
+    margin: 16px 0 28px;
+    font-size: 18px;
+    color: var(--color-border);
+  }
+</style>
