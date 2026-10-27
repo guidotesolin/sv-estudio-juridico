@@ -1,0 +1,110 @@
+---
+import Card from "../components/Card.astro";
+import QuoteBand from "../components/QuoteBand.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+// Lawyer-specific facts are placeholders until the client provides them (backlog B1); each one uses
+// a bracketed marker so the grep in TASKS.md T7 lists them all.
+const howWeWork = [
+  "Antes de la consulta ves un rango orientativo de honorarios, en JUS y en pesos.",
+  "La consulta se abona y se descuenta del total si iniciás el trabajo con el estudio.",
+  "El alcance del trabajo se acuerda antes de empezar.",
+  "Atención presencial en Santa Fe o por videollamada.",
+  "Honorarios pagables en cuotas.",
+];
+---
+
+<BaseLayout
+  title="Sobre el estudio — SV | Estudio Jurídico"
+  description="Quiénes somos y cómo trabajamos: asesoramiento jurídico claro en Santa Fe, presencial o por videollamada."
+>
+  <section class="container page-hero">
+    <h1>
+      <span class="label">Sobre el estudio</span> Un estudio cercano, con
+      explicaciones claras.
+    </h1>
+    <p class="lead">
+      SV | Estudio Jurídico acompaña a personas y empresas de Santa Fe en
+      sucesiones, derecho laboral, daños y perjuicios y asuntos civiles.
+    </p>
+  </section>
+
+  <div class="container profile">
+    {/* Portrait slot (backlog B1): replace with <img alt="Retrato de [Nombre de la abogada]">. */}
+    <div class="portrait" aria-hidden="true"></div>
+    <Card>
+      <h2>[Nombre de la abogada]</h2>
+      <p class="meta">Abogada · Matrícula [Matrícula]</p>
+      <p>[Nombre de la abogada]: perfil profesional breve, a completar.</p>
+    </Card>
+  </div>
+
+  <div class="container page-blocks">
+    <Card>
+      <h2>Experiencia</h2>
+      <ul>
+        <li>[Nombre de la abogada]: años de ejercicio profesional.</li>
+        <li>[Nombre de la abogada]: áreas y tipos de casos atendidos.</li>
+      </ul>
+    </Card>
+
+    <Card>
+      <h2>Formación</h2>
+      <ul>
+        <li>[Nombre de la abogada]: título de grado y universidad.</li>
+        <li>[Nombre de la abogada]: posgrados y cursos.</li>
+      </ul>
+    </Card>
+
+    <Card>
+      <h2>Cómo trabajamos</h2>
+      <ul>
+        {howWeWork.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    </Card>
+  </div>
+
+  <QuoteBand />
+</BaseLayout>
+
+<style>
+  .profile {
+    display: grid;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  /* Neutral block until the photo exists; keeps the layout the photo will take. */
+  .portrait {
+    aspect-ratio: 4 / 5;
+    max-width: 320px;
+    width: 100%;
+    justify-self: center;
+    border-radius: var(--radius-card);
+    background: var(--color-beige);
+  }
+
+  .profile h2 {
+    font-size: clamp(24px, 3vw, 32px);
+    font-weight: 700;
+  }
+
+  .profile p {
+    margin: 12px 0 0;
+    color: var(--color-text-secondary);
+  }
+
+  .profile .meta {
+    margin-top: 8px;
+    color: var(--color-text-muted);
+  }
+
+  @media (min-width: 768px) {
+    .profile {
+      grid-template-columns: 320px 1fr;
+    }
+  }
+</style>

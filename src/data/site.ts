@@ -1,6 +1,8 @@
 // Public contact and booking values; not secrets. Placeholders until the client provides them
 // (backlog B4: WhatsApp and email, B6: Cal.com account).
-export const whatsappNumber = "5490000000000";
+const whatsappNumber = "5490000000000";
+
+export const whatsappUrl = `https://wa.me/${whatsappNumber}`;
 
 export const email = "contacto@example.com";
 
