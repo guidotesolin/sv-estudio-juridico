@@ -202,7 +202,7 @@ Claude's call; rules are a draft for the lawyer to review (backlog B9).
 
 **`estimate(answers)`** is a pure function in `src/lib/quote.ts`:
 
-- Returns `{ minJus, maxJus, minArs, maxArs, includes, excludes }` or
+- Returns `{ unconfirmed: false, minJus, maxJus, minArs, maxArs, includes, excludes }` or
   `{ unconfirmed: true, includes, excludes }`.
 - `fee: null` → the unconfirmed shape.
 - `minJus` = the service's `minJus` (the legal floor — complexity never lowers it).
