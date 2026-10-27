@@ -143,6 +143,13 @@ export function formatJus(n: number): string {
   return jusFormat.format(n);
 }
 
+// Fixed fees (consultation, case-file review): `null` is not confirmed by the lawyer yet.
+export function feeText(jus: number | null): string {
+  return jus === null
+    ? "a confirmar"
+    : `${formatArs(toArs(jus))} (${formatJus(jus)} JUS)`;
+}
+
 // Guards external input (`?area=`, DOM values): `estimate` throws on an unknown area.
 export function isAreaId(s: string): s is AreaId {
   return areas.some((a) => a.id === s);

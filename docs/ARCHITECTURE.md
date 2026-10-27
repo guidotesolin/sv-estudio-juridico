@@ -153,7 +153,10 @@ Copy below is a **draft taken from the ChatGPT conversation**; the lawyer review
   personales, patrimoniales y comerciales.
 - **Expediente en curso** — Podemos ayudarte a comprender el estado de tu proceso, revisar
   documentación y evaluar los pasos que podrían corresponder. Must state: reviewing a file does not
-  mean taking over the case or replacing the current lawyer; scope is agreed beforehand.
+  mean taking over the case or replacing the current lawyer; scope is agreed beforehand. Drafted in
+  T6 (not from the conversation): headline "Entendé en qué está tu proceso y qué podés hacer.",
+  booking band "Pedí la revisión de tu expediente" / "Elegí día y hora, presencial en Santa Fe o por
+  videollamada."
 
 ## Fees
 
