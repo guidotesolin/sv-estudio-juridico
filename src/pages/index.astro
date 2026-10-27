@@ -1,59 +1,14 @@
 ---
+import { getCollection } from "astro:content";
 import Band from "../components/Band.astro";
 import Button from "../components/Button.astro";
 import Card from "../components/Card.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { calUrl } from "../lib/booking";
 
-// Icon paths are Tabler Icons (MIT), inlined so no icon CDN is needed.
-const areas = [
-  {
-    slug: "sucesiones",
-    title: "Sucesiones",
-    summary: "Herencias y declaratoria",
-    icon: [
-      "M21 12l-9 -9l-9 9h2v7a2 2 0 0 0 2 2h6",
-      "M9 21v-6a2 2 0 0 1 2 -2h2c.39 0 .754 .112 1.061 .304",
-      "M19 21.5l2.518 -2.58a1.74 1.74 0 0 0 0 -2.413a1.627 1.627 0 0 0 -2.346 0l-.168 .172l-.168 -.172a1.627 1.627 0 0 0 -2.346 0a1.74 1.74 0 0 0 0 2.412l2.51 2.59z",
-    ],
-  },
-  {
-    slug: "laboral",
-    title: "Laboral",
-    summary: "Despidos e indemnizaciones",
-    icon: [
-      "M3 9a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z",
-      "M8 7v-2a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v2",
-      "M12 12l0 .01",
-      "M3 13a20 20 0 0 0 18 0",
-    ],
-  },
-  {
-    slug: "danos",
-    title: "Daños",
-    summary: "Accidentes y seguros",
-    icon: [
-      "M8 17a2 2 0 1 0 4 0a2 2 0 1 0 -4 0",
-      "M7 6l4 5h1a2 2 0 0 1 2 2v4h-2m-4 0h-5m0 -6h8m-6 0v-5m2 0h-4",
-      "M14 8v-2",
-      "M19 12h2",
-      "M17.5 15.5l1.5 1.5",
-      "M17.5 8.5l1.5 -1.5",
-    ],
-  },
-  {
-    slug: "civil",
-    title: "Civil y otros",
-    summary: "Contratos y deudas",
-    icon: [
-      "M14 3v4a1 1 0 0 0 1 1h4",
-      "M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z",
-      "M9 9l1 0",
-      "M9 13l6 0",
-      "M9 17l6 0",
-    ],
-  },
-];
+const areas = (await getCollection("services")).toSorted(
+  (a, b) => a.data.order - b.data.order,
+);
 
 const steps = [
   "Contanos tu situación",
@@ -100,7 +55,7 @@ const steps = [
     <ul class="grid areas">
       {areas.map((area) => (
         <li>
-          <a class="area-link" href={`/servicios/${area.slug}`}>
+          <a class="area-link" href={`/servicios/${area.id}`}>
             <Card>
               <span class="icon">
                 <svg
@@ -112,18 +67,18 @@ const steps = [
                   stroke-linejoin="round"
                   aria-hidden="true"
                 >
-                  {area.icon.map((d) => (
+                  {area.data.card.icon.map((d) => (
                     <path d={d} />
                   ))}
                 </svg>
               </span>
               <h3>
-                {area.title}{" "}
+                {area.data.card.title}{" "}
                 <span class="arrow" aria-hidden="true">
                   →
                 </span>
               </h3>
-              <p>{area.summary}</p>
+              <p>{area.data.card.summary}</p>
             </Card>
           </a>
         </li>
@@ -144,16 +99,14 @@ const steps = [
   </Band>
 
   <Band variant="dark">
-    <div class="case-file">
-      <h2>¿Ya tenés un expediente en curso?</h2>
-      <p>
-        Podemos ayudarte a comprender el estado de tu proceso, revisar
-        documentación y evaluar los pasos que podrían corresponder.
-      </p>
-      <Button variant="beige" href="/expediente">
-        Pedir revisión <span aria-hidden="true">→</span>
-      </Button>
-    </div>
+    <h2>¿Ya tenés un expediente en curso?</h2>
+    <p>
+      Podemos ayudarte a comprender el estado de tu proceso, revisar
+      documentación y evaluar los pasos que podrían corresponder.
+    </p>
+    <Button variant="beige" href="/expediente">
+      Pedir revisión <span aria-hidden="true">→</span>
+    </Button>
   </Band>
 </BaseLayout>
 
@@ -317,18 +270,6 @@ const steps = [
     font-weight: 800;
     line-height: 1;
     color: var(--color-primary);
-  }
-
-  .case-file {
-    max-width: 720px;
-    margin-inline: auto;
-    text-align: center;
-  }
-
-  .case-file p {
-    margin: 16px 0 28px;
-    font-size: 18px;
-    color: var(--color-border);
   }
 
   @keyframes fade-in {

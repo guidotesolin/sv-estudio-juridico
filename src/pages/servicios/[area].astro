@@ -52,7 +52,10 @@ interface Props {
 }
 
 const { entry } = Astro.props;
-const { title, headline, summary, documentation, notIncluded } = entry.data;
+
+const { title, headline, summary, notice, documentation, notIncluded } =
+  entry.data;
+
 const services = servicesByArea.get(entry.id);
 
 if (!services) {
@@ -62,20 +65,16 @@ if (!services) {
 
 <BaseLayout title={`${title} — SV | Estudio Jurídico`} description={summary}>
   <section class="container hero">
-    <p class="label">{title}</p>
-    <h1>{headline}</h1>
+    <h1>
+      <span class="label">{title}</span> {headline}
+    </h1>
   </section>
 
   <div class="container blocks">
     <Card>
       <h2>Qué resolvemos</h2>
       <p>{summary}</p>
-      {entry.id === "danos" && (
-        <p class="notice">
-          No se garantiza un resultado: cada caso depende de los hechos y las
-          pruebas disponibles.
-        </p>
-      )}
+      {notice && <p class="notice">{notice}</p>}
     </Card>
 
     <Card>
@@ -114,15 +113,11 @@ if (!services) {
   </div>
 
   <Band variant="dark">
-    <div class="cta">
-      <h2>¿Cuánto cuesta tu caso?</h2>
-      <p>
-        Respondé unas preguntas y recibí un rango de honorarios orientativo.
-      </p>
-      <Button variant="beige" href={`/cotizar?area=${entry.id}`}>
-        Cotizá tu caso <span aria-hidden="true">→</span>
-      </Button>
-    </div>
+    <h2>¿Cuánto cuesta tu caso?</h2>
+    <p>Respondé unas preguntas y recibí un rango de honorarios orientativo.</p>
+    <Button variant="beige" href={`/cotizar?area=${entry.id}`}>
+      Cotizá tu caso <span aria-hidden="true">→</span>
+    </Button>
   </Band>
 </BaseLayout>
 
@@ -134,14 +129,21 @@ if (!services) {
   }
 
   .hero h1 {
-    margin-top: 16px;
     font-size: clamp(32px, 5vw, 48px);
     font-weight: 700;
   }
 
+  /* The area name lives inside the h1 so headings and search engines get it; styled as the label. */
+  .hero .label {
+    display: block;
+    margin-bottom: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
   .blocks {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
     gap: 20px;
   }
 
@@ -170,22 +172,5 @@ if (!services) {
     background: var(--color-beige);
     color: var(--color-text);
     font-weight: 600;
-  }
-
-  .cta {
-    max-width: 720px;
-    margin-inline: auto;
-    text-align: center;
-  }
-
-  .cta h2 {
-    font-size: clamp(32px, 5vw, 48px);
-    font-weight: 700;
-  }
-
-  .cta p {
-    margin: 16px 0 28px;
-    font-size: 18px;
-    color: var(--color-border);
   }
 </style>
