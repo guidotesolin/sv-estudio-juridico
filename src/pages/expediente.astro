@@ -1,0 +1,78 @@
+---
+import Band from "../components/Band.astro";
+import Button from "../components/Button.astro";
+import Card from "../components/Card.astro";
+import { CASE_FILE_REVIEW_FEE_JUS, CONSULTATION_FEE_JUS } from "../data/prices";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { calUrl } from "../lib/booking";
+import { feeText } from "../lib/quote";
+
+const coverage = [
+  "Análisis del expediente",
+  "Segunda opinión",
+  "Revisión de resoluciones y notificaciones",
+  "Evaluación de alternativas",
+  "Escritos puntuales",
+  "Revisión de liquidaciones y acuerdos",
+];
+---
+
+<BaseLayout
+  title="Revisión de expediente — SV | Estudio Jurídico"
+  description="Revisamos tu expediente en curso para que entiendas el estado de tu proceso y los pasos que podrían corresponder."
+>
+  <section class="container page-hero">
+    <h1>
+      <span class="label">Expediente en curso</span> Entendé en qué está tu
+      proceso y qué podés hacer.
+    </h1>
+    <p class="lead">
+      Podemos ayudarte a comprender el estado de tu proceso, revisar
+      documentación y evaluar los pasos que podrían corresponder.
+    </p>
+  </section>
+
+  <div class="container page-blocks">
+    <Card>
+      <h2>Qué cubre la revisión</h2>
+      <ul>
+        {coverage.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    </Card>
+
+    <Card>
+      <h2>Cuánto cuesta</h2>
+      <p>Honorario fijo de la revisión: {feeText(CASE_FILE_REVIEW_FEE_JUS)}.</p>
+      <p>
+        La consulta se abona y se descuenta del total si iniciás el trabajo con
+        el estudio. Valor de la consulta: {feeText(CONSULTATION_FEE_JUS)}.
+      </p>
+    </Card>
+
+    <Card>
+      <h2>Alcance</h2>
+      <p class="notice">
+        Revisar un expediente no implica hacernos cargo del caso ni reemplazar a
+        tu abogado o abogada actual. El alcance se acuerda antes de empezar.
+      </p>
+    </Card>
+  </div>
+
+  <Band variant="dark">
+    <h2>Pedí la revisión de tu expediente</h2>
+    <p>Elegí día y hora, presencial en Santa Fe o por videollamada.</p>
+    <Button variant="beige" href={calUrl("revision-expediente")}>
+      Reservar revisión <span aria-hidden="true">→</span>
+    </Button>
+  </Band>
+</BaseLayout>
+
+<style>
+  .lead {
+    margin: 16px 0 0;
+    font-size: 18px;
+    color: var(--color-text-secondary);
+  }
+</style>

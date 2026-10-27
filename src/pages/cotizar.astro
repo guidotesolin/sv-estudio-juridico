@@ -5,14 +5,7 @@ import { areas, CONSULTATION_FEE_JUS } from "../data/prices";
 import { whatsappNumber } from "../data/site";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { calUrl } from "../lib/booking";
-import {
-  areaQuestions,
-  complexities,
-  formatArs,
-  formatJus,
-  stages,
-  toArs,
-} from "../lib/quote";
+import { areaQuestions, complexities, feeText, stages } from "../lib/quote";
 
 const toOptions = (list: readonly { id: string; label: string }[]) =>
   list.map((item) => ({ value: item.id, label: item.label }));
@@ -21,10 +14,7 @@ const toOptions = (list: readonly { id: string; label: string }[]) =>
 const indexOptions = (labels: readonly string[]) =>
   labels.map((label, i) => ({ value: String(i), label }));
 
-const consultationFee =
-  CONSULTATION_FEE_JUS === null
-    ? "a confirmar"
-    : `${formatArs(toArs(CONSULTATION_FEE_JUS))} (${formatJus(CONSULTATION_FEE_JUS)} JUS)`;
+const consultationFee = feeText(CONSULTATION_FEE_JUS);
 ---
 
 <BaseLayout
@@ -182,7 +172,9 @@ const consultationFee =
           <Button variant="ghost" data-back>
             Cambiar respuestas
           </Button>
-          <Button href={calUrl("consulta-inicial")}>Reservar consulta</Button>
+          <Button id="result-booking" href={calUrl("consulta-inicial")}>
+            Reservar consulta
+          </Button>
         </div>
       </div>
     </section>
@@ -191,6 +183,7 @@ const consultationFee =
 
 <script>
   import { areas } from "../data/prices";
+  import { quoteBookingUrl } from "../lib/booking";
   import {
     areaQuestions,
     complexities,
@@ -345,6 +338,8 @@ const consultationFee =
     jusEl.hidden = !jus;
     fillList("result-includes", e.includes);
     fillList("result-excludes", e.excludes);
+
+    byId("result-booking").setAttribute("href", quoteBookingUrl(answers, e));
 
     // An urgent deadline leads the result, so it's what keyboard and screen readers reach first.
     show(

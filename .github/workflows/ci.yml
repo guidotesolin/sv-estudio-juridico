@@ -19,4 +19,5 @@ jobs:
       - run: npm run format:check
       - run: npm run check
       - run: npm run quote:smoke
+      - run: npm run booking:smoke
       - run: npm run build

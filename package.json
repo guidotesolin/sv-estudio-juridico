@@ -15,7 +15,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "astro": "astro",
-    "quote:smoke": "tsx tools/quote-smoke.ts"
+    "quote:smoke": "tsx tools/quote-smoke.ts",
+    "booking:smoke": "tsx tools/booking-smoke.ts"
   },
   "dependencies": {
     "@fontsource/figtree": "^5.3.0",
