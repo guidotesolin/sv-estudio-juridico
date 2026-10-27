@@ -64,6 +64,11 @@ body {
   line-height: 1.5;
 }
 
+/* `hidden` must win over any component's display rule (the quote stepper toggles it on grids). */
+[hidden] {
+  display: none !important;
+}
+
 h1,
 h2,
 h3 {

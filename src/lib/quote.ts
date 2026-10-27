@@ -20,6 +20,78 @@ export const complexities = [
   { id: "unknown", label: "No sé", factor: 1.5 },
 ] as const;
 
+// Draft from ARCHITECTURE.md "Area questions". None asks for names, ID numbers, amounts or
+// documents, and answers only ever carry these option labels (never free text): they end up in the
+// booking URL's notes.
+export interface AreaQuestion {
+  question: string;
+  options: readonly string[];
+  multiple?: boolean;
+}
+
+export const areaQuestions: Record<AreaId, readonly AreaQuestion[]> = {
+  sucesiones: [
+    {
+      question: "¿Cuántas personas fallecieron?",
+      options: ["Una", "Más de una"],
+    },
+    {
+      question: "¿Cuántos herederos hay?",
+      options: ["1 a 3", "4 o más", "No sé"],
+    },
+    { question: "¿Hay testamento?", options: ["Sí", "No", "No sé"] },
+    { question: "¿Hay desacuerdo entre herederos?", options: ["Sí", "No"] },
+    {
+      question: "¿Qué bienes hay?",
+      options: ["Inmuebles", "Vehículos", "Cuentas o dinero", "Otros"],
+      multiple: true,
+    },
+    { question: "¿Dónde están?", options: ["Santa Fe", "Otra provincia"] },
+  ],
+  laboral: [
+    {
+      question: "¿Consultás como trabajador o empleador?",
+      options: ["Trabajador", "Empleador"],
+    },
+    {
+      question: "¿Cómo estaba registrada la relación?",
+      options: ["Registrada", "No registrada", "Registrada en parte"],
+    },
+    { question: "¿Hubo despido o desvinculación?", options: ["Sí", "No"] },
+    {
+      question: "¿Hubo telegramas, acuerdos o reclamos previos?",
+      options: ["Sí", "No"],
+    },
+  ],
+  danos: [
+    {
+      question: "¿Qué pasó?",
+      options: ["Accidente de tránsito", "Otro hecho"],
+    },
+    { question: "¿Hubo lesiones?", options: ["Sí", "No"] },
+    { question: "¿Hubo daños materiales?", options: ["Sí", "No"] },
+    {
+      question: "¿Interviene una aseguradora?",
+      options: ["Sí", "No", "No sé"],
+    },
+    {
+      question: "¿Ya hay denuncia, reclamo o expediente?",
+      options: ["Sí", "No"],
+    },
+    {
+      question: "¿Tenés fotos, presupuestos o informes?",
+      options: ["Sí", "Algunos", "No"],
+    },
+  ],
+  civil: [
+    {
+      question: "¿Hay otra parte involucrada?",
+      options: ["Persona", "Empresa", "Organismo"],
+    },
+    { question: "¿Ya hubo intimaciones o reclamos?", options: ["Sí", "No"] },
+  ],
+};
+
 export type StageId = (typeof stages)[number]["id"];
 
 export type ComplexityId = (typeof complexities)[number]["id"];
@@ -67,7 +139,16 @@ export function formatArs(n: number): string {
   return arsFormat.format(n);
 }
 
-function toArs(jus: number): number {
+export function formatJus(n: number): string {
+  return jusFormat.format(n);
+}
+
+// Guards external input (`?area=`, DOM values): `estimate` throws on an unknown area.
+export function isAreaId(s: string): s is AreaId {
+  return areas.some((a) => a.id === s);
+}
+
+export function toArs(jus: number): number {
   return Math.round(jus * JUS_VALUE_ARS * 100) / 100;
 }
 
@@ -118,14 +199,27 @@ export function estimate(answers: QuoteAnswers): Estimate {
   };
 }
 
-function describeEstimate(e: Estimate): string {
-  if (e.unconfirmed) return "Honorarios a confirmar en la consulta";
-
-  if (e.minJus === e.maxJus) {
-    return `${formatArs(e.minArs)} (${jusFormat.format(e.minJus)} JUS)`;
+// Display text shared by the result screen and the booking notes, so both say the same thing.
+// `jus` is empty when the fee is unconfirmed; one amount when min = max.
+export function estimateText(e: Estimate) {
+  if (e.unconfirmed) {
+    return { amount: "Honorarios a confirmar en la consulta", jus: "" };
   }
 
-  return `${formatArs(e.minArs)} a ${formatArs(e.maxArs)} (${jusFormat.format(e.minJus)} a ${jusFormat.format(e.maxJus)} JUS)`;
+  if (e.minJus === e.maxJus) {
+    return { amount: formatArs(e.minArs), jus: `${formatJus(e.minJus)} JUS` };
+  }
+
+  return {
+    amount: `${formatArs(e.minArs)} a ${formatArs(e.maxArs)}`,
+    jus: `${formatJus(e.minJus)} a ${formatJus(e.maxJus)} JUS`,
+  };
+}
+
+function describeEstimate(e: Estimate): string {
+  const { amount, jus } = estimateText(e);
+
+  return jus ? `${amount} (${jus})` : amount;
 }
 
 // Plain-text summary for the booking notes. No personal data: answers are option labels only.

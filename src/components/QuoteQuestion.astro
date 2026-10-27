@@ -1,0 +1,98 @@
+---
+// One question of the quote stepper: a fieldset of real radios (or checkboxes) with labels. The
+// error paragraph stays empty until the island fills it; it describes each input (not the
+// fieldset, which screen readers rarely read) so it's announced when focus moves to the question.
+interface Props {
+  legend: string;
+  name: string;
+  options: readonly { value: string; label: string }[];
+  multiple?: boolean;
+}
+
+const { legend, name, options, multiple = false } = Astro.props;
+const errorId = `${name}-error`;
+---
+
+<fieldset class="question">
+  <legend>{legend}</legend>
+  <p id={errorId} class="error"></p>
+  {options.map((option) => (
+    <label class="option">
+      <input
+        type={multiple ? "checkbox" : "radio"}
+        name={name}
+        value={option.value}
+        aria-describedby={errorId}
+      />
+      <span>{option.label}</span>
+    </label>
+  ))}
+</fieldset>
+
+<style>
+  .question {
+    display: grid;
+    gap: 8px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  legend {
+    margin-bottom: 12px;
+    padding: 0;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .error {
+    margin: 0;
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .error:empty {
+    display: none;
+  }
+
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-option);
+    background: var(--color-card);
+    font-size: 16px;
+    cursor: pointer;
+    transition:
+      background-color var(--transition),
+      border-color var(--transition),
+      transform 160ms var(--ease-out);
+  }
+
+  .option:has(:checked) {
+    border-color: var(--color-primary);
+    background: var(--color-selected);
+  }
+
+  input {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    accent-color: var(--color-primary);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .option:hover {
+      border-color: var(--color-primary);
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .option:active {
+      transform: scale(0.98);
+    }
+  }
+</style>

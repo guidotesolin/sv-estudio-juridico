@@ -5,6 +5,7 @@ import { z } from "astro/zod";
 const services = defineCollection({
   loader: glob({ pattern: "*.md", base: "./src/content/services" }),
   schema: z.object({
+    // Also the area's `label` in src/data/prices.ts (used by the quote island); keep both in sync.
     title: z.string(),
     headline: z.string(),
     summary: z.string(),

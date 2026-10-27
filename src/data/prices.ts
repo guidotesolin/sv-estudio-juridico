@@ -26,6 +26,8 @@ export interface Service {
 
 export interface Area {
   id: AreaId;
+  // Also the `title` in src/content/services/<id>.md; the quote island can't read astro:content,
+  // so keep both in sync.
   label: string;
   services: readonly Service[];
 }

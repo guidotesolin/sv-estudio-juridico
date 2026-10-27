@@ -2,15 +2,19 @@
 interface Props {
   variant?: "primary" | "ghost" | "beige";
   href?: string;
+  type?: "button" | "submit";
+  // Hook for scripts, e.g. the quote stepper's Atrás buttons.
+  "data-back"?: boolean;
 }
 
-const { variant = "primary", href } = Astro.props;
+const { variant = "primary", href, type = "button", ...attrs } = Astro.props;
 const Tag = href ? "a" : "button";
 ---
 
 <Tag
+  {...attrs}
   href={href}
-  type={href ? undefined : "button"}
+  type={href ? undefined : type}
   class:list={["button", `button--${variant}`]}
 >
   <slot />
