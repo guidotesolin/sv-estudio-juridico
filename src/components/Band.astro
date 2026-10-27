@@ -34,6 +34,25 @@ const { variant, id } = Astro.props;
 
   .band--dark > .container {
     padding-inline: clamp(var(--gutter), 6vw, 60px);
+    text-align: center;
+  }
+
+  /* The dark band is a closing call to action: centered heading, lead line and button. */
+  .band--dark :global(h2),
+  .band--dark :global(p) {
+    max-width: 720px;
+    margin-inline: auto;
+  }
+
+  .band--dark :global(h2) {
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 700;
+  }
+
+  .band--dark :global(p) {
+    margin-block: 16px 28px;
+    font-size: 18px;
+    color: var(--color-border);
   }
 
   .band--dark :global(:focus-visible) {
