@@ -2,9 +2,11 @@
 import assert from "node:assert/strict";
 import { areas } from "../src/data/prices";
 import {
+  areaQuestions,
   buildSummary,
   estimate,
   formatArs,
+  isAreaId,
   type QuoteAnswers,
 } from "../src/lib/quote";
 
@@ -84,6 +86,24 @@ check("every fee: null service → unconfirmed with includes", () => {
 
       assert.equal(e.unconfirmed, true, `${area.id}/${service.id}`);
       assert.ok(e.includes.length > 0, `${area.id}/${service.id}`);
+    }
+  }
+});
+
+check("isAreaId accepts the four areas and rejects anything else", () => {
+  for (const area of areas) assert.ok(isAreaId(area.id), area.id);
+
+  for (const bad of ["", "Danos", "daños", "danos ", "constructor"]) {
+    assert.ok(!isAreaId(bad), JSON.stringify(bad));
+  }
+});
+
+check("every area has questions with at least two options", () => {
+  for (const area of areas) {
+    assert.ok(areaQuestions[area.id].length > 0, area.id);
+
+    for (const q of areaQuestions[area.id]) {
+      assert.ok(q.options.length >= 2, `${area.id}: ${q.question}`);
     }
   }
 });
