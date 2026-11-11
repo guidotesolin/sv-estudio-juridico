@@ -328,7 +328,12 @@ The site is static: no server, database, login, or stored form data. What remain
   third-party origins — hence self-hosted fonts), `Strict-Transport-Security`,
   `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy`
   (camera, microphone, geolocation off), `X-Content-Type-Options: nosniff`. Astro must not emit
-  inline scripts that would force `'unsafe-inline'` in `script-src`.
+  inline scripts that would force `'unsafe-inline'` in `script-src`. Styles are external too:
+  `build.inlineStylesheets: "never"` in `astro.config.mjs` (by default Astro inlined a `<style>`
+  in every page of `dist/`), so `style-src` is `'self'` without `'unsafe-inline'`. The cost is one
+  more request per page for small CSS files (two render-blocking stylesheets: the layout's and the
+  page's); T9 decision. If Lighthouse Performance misses 95, check these and the hero's load fade
+  first.
 - **Dependabot** (`.github/dependabot.yml`) for npm and GitHub Actions.
 - **Accounts**: 2FA on GitHub, Cloudflare, Cal.com, Google and NIC Argentina, plus a password
   manager. That is the real attack surface (whoever takes the domain takes the site and the email).
