@@ -328,7 +328,9 @@ The site is static: no server, database, login, or stored form data. What remain
   third-party origins — hence self-hosted fonts), `Strict-Transport-Security`,
   `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy`
   (camera, microphone, geolocation off), `X-Content-Type-Options: nosniff`. Astro must not emit
-  inline scripts that would force `'unsafe-inline'` in `script-src`. Styles are external too:
+  inline scripts that would force `'unsafe-inline'` in `script-src`: Astro inlines any script
+  smaller than Vite's `assetsInlineLimit` (the mobile menu's few lines were), so
+  `vite.build.assetsInlineLimit: 0` keeps every script an external file. Styles are external too:
   `build.inlineStylesheets: "never"` in `astro.config.mjs` (by default Astro inlined a `<style>`
   in every page of `dist/`), so `style-src` is `'self'` without `'unsafe-inline'`. The cost is one
   more request per page for small CSS files (two render-blocking stylesheets: the layout's and the

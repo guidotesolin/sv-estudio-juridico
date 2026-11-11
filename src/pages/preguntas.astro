@@ -125,10 +125,13 @@ import { feeText, formatArs } from "../lib/quote";
   }
 
   .faq details {
+    /* Clips the summary's highlight to the card's rounded edge, border included. */
+    overflow: hidden;
     background: var(--color-card);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-card);
     box-shadow: var(--shadow-card);
+    transition: transform 160ms var(--ease-out);
   }
 
   .faq summary {
@@ -137,14 +140,17 @@ import { feeText, formatArs } from "../lib/quote";
     align-items: center;
     gap: 16px;
     padding: 20px;
-    border-radius: var(--radius-card);
     font-size: 18px;
     font-weight: 600;
     list-style: none;
     cursor: pointer;
-    transition:
-      background-color var(--transition),
-      transform 160ms var(--ease-out);
+    transition: background-color var(--transition);
+  }
+
+  /* The card's overflow: hidden would clip the global 2px outside ring; draw it inside instead. */
+  .faq summary:focus-visible {
+    outline-offset: -4px;
+    border-radius: var(--radius-card);
   }
 
   .faq summary::-webkit-details-marker {
@@ -163,10 +169,6 @@ import { feeText, formatArs } from "../lib/quote";
     transition: transform 200ms var(--ease-out);
   }
 
-  .faq details[open] summary {
-    border-radius: var(--radius-card) var(--radius-card) 0 0;
-  }
-
   .faq details[open] summary::after {
     transform: rotate(45deg);
   }
@@ -182,8 +184,9 @@ import { feeText, formatArs } from "../lib/quote";
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    /* 0.98 like the area cards: rows up to 880px wide, 0.97 reads as a jump. */
-    .faq summary:active {
+    /* The whole card presses, not the summary inside it: scaling the summary alone left its
+       highlight floating inset from the card's border. 0.98 like the area cards. */
+    .faq details:has(> summary:active) {
       transform: scale(0.98);
     }
   }

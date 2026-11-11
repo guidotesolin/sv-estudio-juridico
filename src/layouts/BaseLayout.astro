@@ -188,6 +188,17 @@ const navLinks = [
         </a>
       </div>
     </footer>
+    <script>
+      // The mobile menu is a <details>, so it opens without JavaScript. A link to a section of the
+      // same page (`/#servicios` from the home) doesn't navigate, so close it on any link tap.
+      const menu = document.querySelector<HTMLDetailsElement>(".nav-mobile");
+
+      menu?.addEventListener("click", (event) => {
+        if (event.target instanceof Element && event.target.closest("a")) {
+          menu.open = false;
+        }
+      });
+    </script>
   </body>
 </html>
 

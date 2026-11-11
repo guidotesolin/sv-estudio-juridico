@@ -37,7 +37,7 @@ const steps = [
     </div>
   </section>
 
-  <section id="servicios" class="container section">
+  <Band variant="beige" id="servicios">
     <div class="section-head">
       <h2>Servicios</h2>
       <p>
@@ -77,9 +77,9 @@ const steps = [
         </li>
       ))}
     </ul>
-  </section>
+  </Band>
 
-  <Band variant="beige" id="como-trabajamos">
+  <section id="como-trabajamos" class="container section">
     <div class="section-head">
       <h2>Cómo trabajamos</h2>
       <p>De tu primera consulta a un plan concreto, en cuatro pasos.</p>
@@ -89,7 +89,7 @@ const steps = [
         <li>{step}</li>
       ))}
     </ol>
-  </Band>
+  </section>
 
   <Band variant="dark">
     <h2>¿Ya tenés un expediente en curso?</h2>
@@ -129,6 +129,18 @@ const steps = [
     flex-wrap: wrap;
     justify-content: center;
     gap: 12px;
+  }
+
+  /* Stacked on a phone, the three CTAs share one width instead of hugging their labels. */
+  @media (max-width: 599px) {
+    .hero-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .hero-actions > :global(.button) {
+      width: min(100%, 320px);
+    }
   }
 
   .section-head {

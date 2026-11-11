@@ -18,8 +18,18 @@ const { variant, id } = Astro.props;
     padding-block: var(--section-gap);
   }
 
+  /* Full-bleed, fading in and out of the canvas instead of a hard edge, so the home can alternate
+     canvas and beige sections without seams (T9). */
   .band--beige {
-    background: var(--color-beige);
+    --fade: clamp(64px, 10vw, 120px);
+
+    background: linear-gradient(
+      to bottom,
+      var(--color-canvas),
+      var(--color-beige) var(--fade),
+      var(--color-beige) calc(100% - var(--fade)),
+      var(--color-canvas)
+    );
   }
 
   /* Inset closing banner, as on the live cord.com (docs/design/cord-style-reference.md). */
