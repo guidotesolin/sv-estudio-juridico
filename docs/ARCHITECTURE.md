@@ -89,7 +89,7 @@ implementation for every page.
 | `--color-border` | `#e8e0d2` | All hairlines and borders |
 | `--color-text` | `#1d3329` | Body and headings — never pure black |
 | `--color-text-secondary` | `#4d6359` | Supporting copy |
-| `--color-text-muted` | `#6b7f74` | Labels, meta |
+| `--color-text-muted` | `#5a6b61` | Labels, meta — AA (≥ 4.5:1) on canvas, card, beige and selected; was `#6b7f74` until T9, which failed on all four |
 | `--color-primary` | `#24493b` | Primary buttons, active states, icons — the only accent |
 | `--color-dark` | `#1f3d33` | Dark closing banner (gradient from `--color-primary`) |
 | `--color-selected` | `#eef3ef` | Selected option background, icon tiles, ghost button hover |

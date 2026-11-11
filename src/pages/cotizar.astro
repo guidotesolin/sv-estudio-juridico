@@ -36,8 +36,9 @@ const consultationFee = feeText(CONSULTATION_FEE_JUS);
       </p>
     </noscript>
 
-    <!-- Hidden until the island runs: without it, Siguiente would do a native GET to this page. -->
-    <form id="quote" novalidate hidden>
+    <!-- Hidden without JavaScript by `@media (scripting: none)` below, not by `hidden` + JS: showing
+         it after load pushed the footer down (CLS 0.267 on PageSpeed desktop, T9). -->
+    <form id="quote" novalidate>
       <section data-step>
         <h2 tabindex="-1">Paso 1 de 4 · Área</h2>
         <QuoteQuestion
@@ -374,8 +375,6 @@ const consultationFee = feeText(CONSULTATION_FEE_JUS);
     back.addEventListener("click", () => show(current - 1));
   }
 
-  form.hidden = false;
-
   // `?area=` preselects step 1; an unknown value is ignored.
   const areaParam = new URLSearchParams(location.search).get("area");
 
@@ -389,6 +388,13 @@ const consultationFee = feeText(CONSULTATION_FEE_JUS);
 </script>
 
 <style>
+  /* Without the island, Siguiente would do a native GET to this page; the <noscript> note covers it. */
+  @media (scripting: none) {
+    #quote {
+      display: none;
+    }
+  }
+
   .quote {
     max-width: 720px;
     padding-block: clamp(48px, 8vw, 96px) 0;
