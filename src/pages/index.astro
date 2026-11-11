@@ -19,16 +19,12 @@ const steps = [
 ---
 
 <BaseLayout
-  title="SV | Estudio Jurídico — Santa Fe"
-  description="Asesoramiento jurídico en sucesiones, laboral, daños y civil en Santa Fe. Cotizá tu caso y reservá una consulta online."
+  title="SV & ASOC. | Estudio Jurídico — Santa Fe"
+  description="Asesoramiento jurídico en sucesiones, laboral, daños y civil y comercial en Santa Fe. Cotizá tu caso y reservá una consulta online."
 >
   <section class="container hero">
     <p class="label">Asesoramiento · Estrategia · Gestión</p>
-    <h1>
-      Soluciones jurídicas claras.
-      <br />
-      Un camino concreto para avanzar.
-    </h1>
+    <h1>Soluciones jurídicas claras.</h1>
     <p class="hero-subtitle">
       Te asesoramos, definimos la estrategia y gestionamos tu caso, con precios
       a la vista.
@@ -119,7 +115,7 @@ const steps = [
 
   .hero h1 {
     margin: 16px 0 20px;
-    /* cord sets 100px, but our two-line headline is longer: 72px is the most that fits in two lines. */
+    /* cord sets 100px; 72px comes from the former two-line headline (one line since T8). */
     font-size: clamp(40px, 6vw, 72px);
     line-height: 1;
   }
@@ -189,12 +185,27 @@ const steps = [
   }
 
   .area-link > :global(.card) {
+    position: relative;
+    isolation: isolate;
     height: 100%;
     padding: 24px;
     transition:
       border-color var(--transition),
-      box-shadow var(--transition),
       transform 160ms var(--ease-out);
+  }
+
+  /* Flood: hover (pointer) or press (touch) fills the card with the closing banner's gradient. Only
+     opacity animates, so it stays on the GPU; the text colors follow with the hover transition. */
+  .area-link > :global(.card)::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    /* inset -1px covers the border, so the radius grows by 1px to match the card's outer edge. */
+    border-radius: calc(var(--radius-card) + 1px);
+    background: linear-gradient(78deg, var(--color-primary), var(--color-dark));
+    opacity: var(--flood, 0);
+    transition: opacity 200ms var(--ease-out);
   }
 
   .icon {
@@ -203,8 +214,11 @@ const steps = [
     width: 48px;
     height: 48px;
     border-radius: var(--radius-option);
-    background: var(--color-selected);
-    color: var(--color-primary);
+    background: var(--card-icon-bg, var(--color-selected));
+    color: var(--card-icon-fg, var(--color-primary));
+    transition:
+      background-color var(--transition),
+      color var(--transition);
   }
 
   .icon svg {
@@ -215,20 +229,43 @@ const steps = [
   .area-link h3 {
     margin-top: 20px;
     font-size: 18px;
+    color: var(--card-title, var(--color-text));
+    transition: color var(--transition);
   }
 
   .arrow {
     display: inline-block;
-    color: var(--color-primary);
-    transition: transform 200ms var(--ease-out);
+    color: var(--card-arrow, var(--color-primary));
+    transition:
+      color var(--transition),
+      transform 200ms var(--ease-out);
   }
 
-  /* :active is the tap feedback (the tap highlight is off); :hover only for real pointers. */
+  /* :active is the tap feedback (the tap highlight is off); :hover only for real pointers. Both set
+     the same flooded palette, read by the card's children above. */
+  .area-link:active {
+    --flood: 1;
+    --card-title: var(--color-canvas);
+    --card-text: var(--color-border);
+    --card-icon-bg: rgb(251 248 242 / 0.12);
+    --card-icon-fg: var(--color-canvas);
+    --card-arrow: var(--color-beige);
+  }
+
   .area-link:active > :global(.card) {
     border-color: var(--color-primary);
   }
 
   @media (hover: hover) and (pointer: fine) {
+    .area-link:hover {
+      --flood: 1;
+      --card-title: var(--color-canvas);
+      --card-text: var(--color-border);
+      --card-icon-bg: rgb(251 248 242 / 0.12);
+      --card-icon-fg: var(--color-canvas);
+      --card-arrow: var(--color-beige);
+    }
+
     .area-link:hover > :global(.card) {
       border-color: var(--color-primary);
       box-shadow: var(--shadow-card), var(--shadow-hover);
@@ -250,7 +287,8 @@ const steps = [
   .area-link p {
     margin: 6px 0 0;
     font-size: 14px;
-    color: var(--color-text-secondary);
+    color: var(--card-text, var(--color-text-secondary));
+    transition: color var(--transition);
   }
 
   .steps li {
@@ -270,21 +308,5 @@ const steps = [
     font-weight: 800;
     line-height: 1;
     color: var(--color-primary);
-  }
-
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-      transform: translateY(8px);
-    }
-  }
-
-  /* Reduced motion keeps the fade, drops the movement. */
-  @media (prefers-reduced-motion: reduce) {
-    @keyframes fade-in {
-      from {
-        opacity: 0;
-      }
-    }
   }
 </style>

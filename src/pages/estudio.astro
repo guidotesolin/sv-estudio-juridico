@@ -1,21 +1,21 @@
 ---
+import { Image } from "astro:assets";
+import portrait from "../assets/portrait.jpg";
 import Card from "../components/Card.astro";
 import QuoteBand from "../components/QuoteBand.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
 
-// Lawyer-specific facts are placeholders until the client provides them (backlog B1); each one uses
-// a bracketed marker so the grep in TASKS.md T7 lists them all.
 const howWeWork = [
   "Antes de la consulta ves un rango orientativo de honorarios, en JUS y en pesos.",
   "La consulta se abona y se descuenta del total si iniciás el trabajo con el estudio.",
   "El alcance del trabajo se acuerda antes de empezar.",
-  "Atención presencial en Santa Fe o por videollamada.",
-  "Honorarios pagables en cuotas.",
+  "Atención presencial o por videollamada.",
+  "Convenios de pago en cuotas.",
 ];
 ---
 
 <BaseLayout
-  title="Sobre el estudio — SV | Estudio Jurídico"
+  title="Sobre el estudio — SV & ASOC. | Estudio Jurídico"
   description="Quiénes somos y cómo trabajamos: asesoramiento jurídico claro en Santa Fe, presencial o por videollamada."
 >
   <section class="container page-hero">
@@ -24,18 +24,32 @@ const howWeWork = [
       explicaciones claras.
     </h1>
     <p class="lead">
-      SV | Estudio Jurídico acompaña a personas y empresas de Santa Fe en
-      sucesiones, derecho laboral, daños y perjuicios y asuntos civiles.
+      SV & ASOC. (Sabrina Vidoni y asociados) acompaña a personas y empresas de
+      Santa Fe y alrededores en diferentes áreas del derecho: sucesiones,
+      laboral, daños y perjuicios, civil y comercial, etc.
     </p>
   </section>
 
   <div class="container profile">
-    {/* Portrait slot (backlog B1): replace with <img alt="Retrato de [Nombre de la abogada]">. */}
-    <div class="portrait" aria-hidden="true"></div>
+    <Image
+      class="portrait"
+      src={portrait}
+      alt="Retrato de Sabrina Vidoni en su escritorio"
+      widths={[320, 640]}
+      sizes="320px"
+      loading="eager"
+    />
     <Card>
-      <h2>[Nombre de la abogada]</h2>
-      <p class="meta">Abogada · Matrícula [Matrícula]</p>
-      <p>[Nombre de la abogada]: perfil profesional breve, a completar.</p>
+      <h2>Sabrina Vidoni</h2>
+      <p class="meta">
+        Abogada · Matrícula provincial Tº V Fº 558, Expte. 9552, Colegio de
+        Abogados de Santa Fe, 1ª circunscripción · Matrícula federal Tº 406 Fº
+        699
+      </p>
+      <p>
+        Derecho público y privado: administrativo, civil, laboral, daños y
+        sucesiones.
+      </p>
     </Card>
   </div>
 
@@ -43,16 +57,33 @@ const howWeWork = [
     <Card>
       <h2>Experiencia</h2>
       <ul>
-        <li>[Nombre de la abogada]: años de ejercicio profesional.</li>
-        <li>[Nombre de la abogada]: áreas y tipos de casos atendidos.</li>
+        <li>
+          Abogada litigante y asesoramiento en derecho civil, accidentes de
+          tránsito, laboral, sucesiones y administrativo.
+        </li>
+        <li>
+          Responsable y apoderada legal en el Servicio Jurídico del 7º Distrito
+          Santa Fe de la Dirección Nacional de Vialidad: defensa judicial del
+          organismo, dictámenes, licitaciones y ejecución de obras públicas.
+        </li>
       </ul>
     </Card>
 
     <Card>
       <h2>Formación</h2>
       <ul>
-        <li>[Nombre de la abogada]: título de grado y universidad.</li>
-        <li>[Nombre de la abogada]: posgrados y cursos.</li>
+        <li>
+          Abogada, Facultad de Ciencias Jurídicas y Sociales, Universidad
+          Nacional del Litoral.
+        </li>
+        <li>
+          Especialista en Derecho Procesal Penal, Facultad de Ciencias Jurídicas
+          y Sociales, Universidad Nacional del Litoral.
+        </li>
+        <li>
+          Abogacía del Estado: Asesoramiento Jurídico, Procuración del Tesoro de
+          la Nación.
+        </li>
       </ul>
     </Card>
 
@@ -77,13 +108,16 @@ const howWeWork = [
     margin-bottom: 20px;
   }
 
-  /* Neutral block until the photo exists; keeps the layout the photo will take. */
+  /* The photo is square; 4:5 crops the sides and keeps the face in the upper third. */
   .portrait {
     aspect-ratio: 4 / 5;
     max-width: 320px;
     width: 100%;
+    height: auto;
     justify-self: center;
     border-radius: var(--radius-card);
+    object-fit: cover;
+    object-position: 50% 20%;
     background: var(--color-beige);
   }
 

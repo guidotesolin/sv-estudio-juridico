@@ -280,7 +280,7 @@ _Commit_: `feat(ui): finish visual identity and launch content`
 
 Per-page `<title>` and meta description, Open Graph tags using T8's `public/og.png`,
 `@astrojs/sitemap` (needs `site` in `astro.config` — use a placeholder domain until B5),
-`robots.txt`, favicon links to T8's assets. `public/_headers` with
+`robots.txt` (the favicon links went in with T8). `public/_headers` with
 the headers in ARCHITECTURE.md "Security"; set `build.inlineStylesheets: "never"` or allow
 `style-src 'self' 'unsafe-inline'` — decide by checking `dist/` and note the choice in
 ARCHITECTURE.md. **`script-src` must be `'self'` only**: if Astro inlines a script, move it to an
@@ -305,17 +305,17 @@ who it belongs to. Shortcuts inside code are `ponytail:` comments instead.
 
 | ID | What | Why it was left | Belongs to |
 | -- | ---- | --------------- | ---------- |
-| B1 | Lawyer's full name, matrícula, bio and portrait | Not provided yet | Client → T8 replaces T7 placeholders |
-| B2 | Real fees in JUS for every service; consultation fee; case-file review fee | Only declaratoria (6 JUS) given; no invented numbers ship | Client → maintainer edits `prices.ts` |
-| B3 | Installment terms and consultation payment method/timing | Not provided; payment text lives in Cal.com | Client, in Cal.com confirmation text |
-| B4 | WhatsApp number and contact email | Not provided | Client → T8 edits `src/data/site.ts` |
-| B5 | Domain (`.com.ar`, NIC Argentina) | Not bought yet; only mandatory cost | Client/maintainer → `astro.config` `site`, Cloudflare custom domain |
-| B6 | Cal.com account, Google Calendar connection and the three event types | Accounts are created by people, not Claude | Client/maintainer, before T6 hand test; T8 sets `calUsername` |
+| B1 | ~~Lawyer's name, matrícula, bio and portrait~~ | Done in T8: profile in `/estudio`, portrait in `src/assets/portrait.jpg` through `astro:assets` (WebP, 320/640w, 4:5 crop) | — |
+| B2 | ~~Real fees in JUS~~ | Done in T8: every fee she gave, the consultation and the case-file review (0.5 JUS each), one open-ended ("desde 1 JUS"); four stay "a confirmar" by her decision | — |
+| B3 | ~~Consultation payment method and timing~~ | Done in T8: paid at the end of the meeting, transfer preferred, cash if in person; in the two consultation descriptions on Cal.com, the review fee (0.5 JUS) in the third; profile name "SV & Asociados · Estudio Jurídico" | — |
+| B4 | ~~WhatsApp number and contact email~~ | Done in T8: real WhatsApp and the firm's Gmail in `src/data/site.ts` | — |
+| B5 | Domain `estudiovidoni.com.ar`: DNS delegation to Cloudflare and `site` in `astro.config` | Registered at NIC Argentina in the lawyer's name; the rest is deploy work | T9 |
+| B6 | ~~Cal.com account and event types~~ | Done in T8: account, Google Calendar, three event types, end-to-end test booking, profile photo | — |
 | B7 | Fee amounts vs Santa Fe fee law minimums and bar ethics rules | Legal responsibility of the lawyer, not enforced by code | Client |
 | B8 | 2FA and password manager on GitHub, Cloudflare, Cal.com, Google, NIC Argentina | Not code; the real attack surface | Maintainer and client |
-| B9 | Review of all draft copy, area questions and complexity factors | Drafted from the ChatGPT conversation | Client → T8 applies the corrections |
+| B9 | ~~Review of all draft copy~~ | Done in T8: profile copy, "Civil y comercial", succession card; the rest approved as drafted | — |
 | B10 | Online payment of the consultation | Out of v1 scope ("up to the booking") | When the client wants to stop confirming transfers by hand |
-| B11 | Admin panel for fees | Maintainer edits `prices.ts`; one constant covers JUS updates | When fees change often enough to hurt |
+| B11 | ~~Admin panel for fees~~ | Won't do: the maintainer edits `src/data/prices.ts` directly (`JUS_VALUE_ARS` covers JUS updates) | — |
 | B12 | Monthly retainer for businesses ("abono") | Out of v1 scope | After v1 is live |
 | B13 | Area answers moving the estimate | v1 sends them as notes only | When the lawyer defines how they weigh |
 | B14 | Email on own domain | Optional cost | When the domain exists (Cloudflare Email Routing for receiving is free) |

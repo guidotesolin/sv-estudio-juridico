@@ -1,5 +1,5 @@
 ---
-# Draft copy; the lawyer reviews it (backlog B9).
+# Approved by the lawyer (T8).
 title: Daños y perjuicios
 headline: Evaluá tu reclamo y las posibilidades de reparación del daño.
 summary: Estudiamos los hechos, la documentación y las pruebas para determinar las alternativas frente a un accidente o un daño sufrido, y acompañamos las gestiones extrajudiciales o judiciales.

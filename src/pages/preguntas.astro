@@ -8,7 +8,7 @@ import { feeText, formatArs } from "../lib/quote";
 ---
 
 <BaseLayout
-  title="Preguntas frecuentes — SV | Estudio Jurídico"
+  title="Preguntas frecuentes — SV & ASOC. | Estudio Jurídico"
   description="Honorarios en JUS, consulta, cuotas, plazos, jurisdicción, documentación y privacidad: lo que conviene saber antes de la consulta."
 >
   <section class="container page-hero">
@@ -118,6 +118,7 @@ import { feeText, formatArs } from "../lib/quote";
 
 <style>
   .faq {
+    animation: fade-in 300ms var(--ease-out) both;
     display: grid;
     gap: 12px;
     max-width: 880px;
@@ -181,8 +182,9 @@ import { feeText, formatArs } from "../lib/quote";
   }
 
   @media (prefers-reduced-motion: no-preference) {
+    /* 0.98 like the area cards: rows up to 880px wide, 0.97 reads as a jump. */
     .faq summary:active {
-      transform: scale(0.97);
+      transform: scale(0.98);
     }
   }
 

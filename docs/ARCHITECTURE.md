@@ -75,9 +75,9 @@ text wordmark. The full extraction, with notes from the live site, is
 [design/cord-style-reference.md](./design/cord-style-reference.md): it is the reference for scale,
 spacing and interaction; its navy/blue palette does not apply.
 
-The approved mockup is [design/mockup-v1.html](./design/mockup-v1.html): it fixes the structure and
-copy of the home. It is a compressed preview, so for proportions (hero size, section headings,
-banner) the cord reference wins. Its copy and amounts are placeholders.
+The mockup [design/mockup-v1.html](./design/mockup-v1.html) fixed the structure and copy of the
+home; it is **superseded** by the built site (T8), and `src/pages/index.astro` is now the reference
+implementation for every page.
 
 ### Tokens
 
@@ -95,10 +95,13 @@ banner) the cord reference wins. Its copy and amounts are placeholders.
 | `--color-selected` | `#eef3ef` | Selected option background, icon tiles, ghost button hover |
 | `--color-primary-hover` | `#1b382d` | Primary button hover |
 | `--color-beige-hover` | `#e4d7c2` | Beige button hover |
+| `--color-error` | `#b42318` | Quote stepper "elegí una opción" message, icon and option borders — a status color, not brand |
+| `--color-error-bg` | `#fdf0ee` | Background of that message |
 
 - **Type**: Figtree 400 body, 600 emphasis and buttons, 700 subheadings, 800 display. Display uses
   negative tracking (about −0.5px). Home hero `clamp(40px, 6vw, 72px)` at line-height 1 (cord uses
-  100px; our headline is longer and 72px is the most that keeps it on two lines); section headings
+  100px; 72px was the most that kept the original two-line headline on two lines, and it stayed when
+  the second line was dropped in T8); section headings
   `clamp(32px, 5vw, 48px)` weight 700 with an 18px lead line. Body line-height 1.5.
 - **Shape**: cards 20px radius, buttons and inputs 24px, options 14px. No corner under 8px.
 - **Shadows**: tinted green, `rgba(31, 61, 51, 0.04–0.08)`; e.g. cards `0 12px 48px`. No gray shadows.
@@ -110,15 +113,39 @@ banner) the cord reference wins. Its copy and amounts are placeholders.
   (`cubic-bezier(0.23, 1, 0.32, 1)`). Every pressable gets `:active` feedback (`scale(0.97)`, cards
   `0.98`, 160ms). Hero and area cards enter with opacity + 8px `translateY` (400ms, 80ms stagger);
   card arrows nudge 4px on hover. `prefers-reduced-motion` keeps the fades and drops every
-  transform. No `transition: all`, no `ease-in`, UI motion under 300ms.
+  transform. No `transition: all`, no `ease-in`, UI motion under 300ms. Inner pages enter the same
+  way at 300ms (they replay on every navigation); `/cotizar` has no entrance (a task screen).
+  Shadows change without a transition: `box-shadow` repaints every frame (`review-animations`, T8).
 - **Touch** (`mobile-native` skill): every `:hover` lives inside
   `@media (hover: hover) and (pointer: fine)` and has an `:active` twin; `global.css` sets
   `-webkit-tap-highlight-color: transparent`, `-webkit-text-size-adjust: 100%`,
   `touch-action: manipulation` on `a, button, summary` and `user-select: none` on controls only.
   Inputs (T5) use at least 16px text. `theme-color` matches the header (`#fbf8f2`).
-- **One accent only.** No second brand color.
-- **Logo**: text wordmark "SV | Estudio Jurídico" (no logo exists).
-- **Imagery**: the design works without photos. `/estudio` keeps one slot for a portrait.
+- **One accent only.** No second brand color. The error red is a status color for form validation only (T8).
+- **Identity**: "SV & ASOC. | Estudio Jurídico" (SV = Sabrina Vidoni), Figtree throughout. Three
+  marks, each for the size it reads at (client decision, T8):
+  - **Emblem** (`src/assets/emblem.svg`): solid scales of justice over "SV", "& ASOCIADOS" below,
+    inside a laurel wreath; beige and cream on `--color-primary`. Profile picture on Gmail, Cal.com
+    and social networks, and the left half of `public/og.png` (1200×630, emblem + two-line
+    wordmark on the closing banner's gradient). Too detailed below ~40px.
+  - **Wordmark** (`src/assets/wordmark.svg`; Figtree 800 "SV & ASOC.", 400 "| Estudio Jurídico"):
+    the header and footer render it as live text.
+  - **Monogram** (`src/assets/monogram.svg`, "SV" alone): `public/favicon.svg` and
+    `public/apple-touch-icon.png` (180px), where the emblem turns into a smudge.
+
+  **One visible name**: "SV & Asociados · Estudio Jurídico" wherever a display name goes (Cal.com
+  profile, Gmail sender, social profiles); "SV & ASOC." is only its short form where width is
+  tight (the site header). Addresses are all `estudiovidoni` (domain, Cal.com, social handles);
+  the Gmail account `estudiojuridicovidoni` is the one exception until the domain mailbox exists
+  (B14). Client decision, T8.
+
+  The SVGs carry their text as paths, so they render without the font installed. The emblem was
+  chosen from the explorations on the Design canvas
+  <https://claude.ai/artifact/FAr2baycyHN24FXm5zBa5w> ("A1 con balanza maciza").
+- **Footer**: cord's column layout (wordmark + one line; Servicios; Estudio; Contacto), with the
+  privacy note and disclaimer below the columns.
+- **Imagery**: the design works without photos. The only photo is the lawyer's portrait on `/estudio`
+  (`src/assets/portrait.jpg`, square original cropped to 4:5 with `object-fit`).
 - **Accessibility**: beige-on-green and green-on-beige pairs must pass WCAG AA; visible focus rings;
   every option in the quote stepper is a real `<input type="radio">` with a `<label>`.
 
@@ -126,7 +153,7 @@ banner) the cord reference wins. Its copy and amounts are placeholders.
 
 | Route | Content |
 | ----- | ------- |
-| `/` | Hero ("Soluciones jurídicas claras. Un camino concreto para avanzar.") with three CTAs: **Cotizar mi caso** → `/cotizar`, **Reservar una consulta** → Cal.com, **Ya tengo un expediente** → `/expediente`. Four area cards → `/servicios/<area>`. "Cómo trabajamos" in 4 steps (Contanos tu situación · Recibí un rango · Elegí día y hora · Definí cómo avanzar). Dark band "¿Ya tenés un expediente en curso?". Footer. |
+| `/` | Hero ("Soluciones jurídicas claras."; the second line "Un camino concreto para avanzar." was dropped in T8) with three CTAs: **Cotizar mi caso** → `/cotizar`, **Reservar una consulta** → Cal.com, **Ya tengo un expediente** → `/expediente`. Four area cards → `/servicios/<area>`. "Cómo trabajamos" in 4 steps (Contanos tu situación · Recibí un rango · Elegí día y hora · Definí cómo avanzar). Dark band "¿Ya tenés un expediente en curso?". Footer. |
 | `/servicios/sucesiones`, `/servicios/laboral`, `/servicios/danos`, `/servicios/civil` | Fixed structure per area: what it solves, what's included (the area's services), documentation to bring, how it's charged, what's not included, CTA to `/cotizar?area=<area>`. |
 | `/cotizar` | The quote stepper (see "Quote model"). |
 | `/expediente` | Review of an ongoing case file: what the review covers, fixed fee, scope disclaimer, CTA to the Cal.com "Revisión de expediente" event. |
@@ -148,7 +175,7 @@ Copy below is a **draft taken from the ChatGPT conversation**; the lawyer review
   Estudiamos los hechos, la documentación y las pruebas para determinar las alternativas frente a un
   accidente o un daño sufrido, y acompañamos las gestiones extrajudiciales o judiciales. No result is
   guaranteed — say so.
-- **Civil y otros asuntos** — "Asesoramiento jurídico para tomar decisiones con respaldo."
+- **Civil y comercial** (renamed from "Civil y otros asuntos" by the lawyer, T8) — "Asesoramiento jurídico para tomar decisiones con respaldo."
   Orientación y estrategias para prevenir conflictos, revisar documentación y gestionar controversias
   personales, patrimoniales y comerciales.
 - **Expediente en curso** — Podemos ayudarte a comprender el estado de tu proceso, revisar
@@ -173,7 +200,11 @@ admin panel.
 
 **`fee: null` means "not confirmed by the lawyer"** and the UI shows "Honorarios a confirmar en la
 consulta" instead of a number. This is the guard against the main anti-goal: **no invented amount
-ever ships**. Only fees the client has given go in as numbers; today that is declaratoria = 6 JUS.
+ever ships**. Only fees the client has given go in as numbers: since T8, every service whose fee she
+gave in JUS, a 0.5 JUS consultation and a 0.5 JUS case-file review. `maxJus: null` is an
+open-ended fee, shown as "desde N JUS" (laboral · representación judicial: desde 1 JUS); complexity
+does not apply to it. The four fees she gave as a percentage or "depende" stay `null` ("a
+confirmar"): her decision, not a gap.
 
 Amounts must respect the minimums of Santa Fe's fee law and bar ethics rules. That is the lawyer's
 responsibility; the code does not enforce it.

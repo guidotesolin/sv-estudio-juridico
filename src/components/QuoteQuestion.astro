@@ -46,10 +46,38 @@ const errorId = `${name}-error`;
     font-weight: 700;
   }
 
+  /* A missing answer must read as an error at a glance: status red, an icon (color alone isn't
+     enough) and red borders on the question's options until one is picked. */
   .error {
-    margin: 0;
-    color: var(--color-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 4px;
+    padding: 10px 14px;
+    border-radius: var(--radius-option);
+    background: var(--color-error-bg);
+    color: var(--color-error);
     font-weight: 600;
+  }
+
+  .error::before {
+    content: "!";
+    content: "!" / "";
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--color-error);
+    color: var(--color-card);
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .question:has(.error:not(:empty)) .option {
+    border-color: var(--color-error);
   }
 
   .error:empty {

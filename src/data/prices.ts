@@ -1,19 +1,21 @@
 // Fee table in JUS, edited by the maintainer. `fee: null` means "not confirmed by the lawyer": the
-// UI shows "a confirmar" instead of a number, so no invented amount ever ships (backlog B2).
-// Includes/excludes are drafts the lawyer reviews (backlog B9).
+// UI shows "a confirmar" instead of a number, so no invented amount ever ships. The remaining nulls
+// are fees the lawyer gave as a percentage or "depende el caso": "a confirmar" is her decision (T8).
+// Includes/excludes were approved by the lawyer (T8).
 
 // When the JUS changes, this is the only edit.
 export const JUS_VALUE_ARS = 150062.72;
 
-export const CONSULTATION_FEE_JUS: number | null = null;
+export const CONSULTATION_FEE_JUS: number | null = 0.5;
 
-export const CASE_FILE_REVIEW_FEE_JUS: number | null = null;
+export const CASE_FILE_REVIEW_FEE_JUS: number | null = 0.5;
 
 export type AreaId = "sucesiones" | "laboral" | "danos" | "civil";
 
 export interface Fee {
   minJus: number;
-  maxJus: number;
+  // null: open-ended, shown as "desde <minJus>".
+  maxJus: number | null;
 }
 
 export interface Service {
@@ -40,7 +42,7 @@ export const areas: readonly Area[] = [
       {
         id: "inicio",
         label: "Inicio de sucesión",
-        fee: null,
+        fee: { minJus: 1, maxJus: 1 },
         includes: [
           "Análisis inicial de la documentación",
           "Redacción y presentación del escrito de inicio",
@@ -65,7 +67,7 @@ export const areas: readonly Area[] = [
       {
         id: "inscripcion",
         label: "Inscripción de inmuebles y vehículos",
-        fee: null,
+        fee: { minJus: 1, maxJus: 1 },
         includes: [
           "Preparación de oficios y documentación registral",
           "Presentación ante los registros correspondientes",
@@ -76,7 +78,7 @@ export const areas: readonly Area[] = [
       {
         id: "adjudicacion",
         label: "Inscripción y adjudicación de bienes",
-        fee: null,
+        fee: { minJus: 6, maxJus: 8 },
         includes: [
           "Propuesta de partición y adjudicación",
           "Presentación judicial",
@@ -87,7 +89,7 @@ export const areas: readonly Area[] = [
       {
         id: "conflicto",
         label: "Sucesión con conflicto entre herederos",
-        fee: null,
+        fee: { minJus: 6, maxJus: 10 },
         includes: [
           "Análisis de la posición de cada heredero",
           "Negociación entre las partes",
@@ -104,7 +106,7 @@ export const areas: readonly Area[] = [
       {
         id: "telegramas",
         label: "Intercambio telegráfico",
-        fee: null,
+        fee: { minJus: 1.5, maxJus: 1.5 },
         includes: [
           "Análisis de la situación laboral",
           "Redacción de telegramas o cartas documento",
@@ -118,7 +120,7 @@ export const areas: readonly Area[] = [
       {
         id: "liquidacion",
         label: "Liquidación y revisión de indemnización",
-        fee: null,
+        fee: { minJus: 1, maxJus: 2 },
         includes: [
           "Revisión de recibos y documentación laboral",
           "Cálculo de la liquidación o indemnización",
@@ -140,7 +142,7 @@ export const areas: readonly Area[] = [
       {
         id: "conciliacion",
         label: "Conciliación o reclamo administrativo",
-        fee: null,
+        fee: { minJus: 1, maxJus: 1 },
         includes: [
           "Preparación del reclamo",
           "Asistencia a las audiencias de conciliación",
@@ -151,7 +153,7 @@ export const areas: readonly Area[] = [
       {
         id: "judicial",
         label: "Representación judicial",
-        fee: null,
+        fee: { minJus: 1, maxJus: null },
         includes: [
           "Redacción y presentación de la demanda o contestación",
           "Representación en audiencias",
@@ -168,7 +170,7 @@ export const areas: readonly Area[] = [
       {
         id: "aseguradora",
         label: "Reclamo ante la aseguradora",
-        fee: null,
+        fee: { minJus: 1, maxJus: 3 },
         includes: [
           "Análisis de los hechos y la documentación",
           "Presentación del reclamo ante la aseguradora",
@@ -179,7 +181,7 @@ export const areas: readonly Area[] = [
       {
         id: "negociacion",
         label: "Negociación de acuerdo",
-        fee: null,
+        fee: { minJus: 1, maxJus: 3 },
         includes: [
           "Evaluación del daño y su reparación",
           "Negociación con la otra parte o su aseguradora",
@@ -202,7 +204,7 @@ export const areas: readonly Area[] = [
   },
   {
     id: "civil",
-    label: "Civil y otros asuntos",
+    label: "Civil y comercial",
     services: [
       {
         id: "contrato",
@@ -218,7 +220,7 @@ export const areas: readonly Area[] = [
       {
         id: "intimacion",
         label: "Carta documento o intimación",
-        fee: null,
+        fee: { minJus: 1.5, maxJus: 1.5 },
         includes: [
           "Análisis del caso",
           "Redacción de la carta documento o intimación",
@@ -239,7 +241,7 @@ export const areas: readonly Area[] = [
       {
         id: "informe",
         label: "Informe jurídico o segunda opinión",
-        fee: null,
+        fee: { minJus: 1, maxJus: 2 },
         includes: [
           "Revisión de la documentación",
           "Informe escrito con alternativas",
@@ -249,7 +251,7 @@ export const areas: readonly Area[] = [
       {
         id: "escrito",
         label: "Escrito o presentación puntual",
-        fee: null,
+        fee: { minJus: 1, maxJus: 2 },
         includes: [
           "Análisis de lo que hay que presentar",
           "Redacción del escrito",

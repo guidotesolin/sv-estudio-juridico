@@ -5,6 +5,7 @@ import {
   areaQuestions,
   buildSummary,
   estimate,
+  estimateText,
   formatArs,
   isAreaId,
   type QuoteAnswers,
@@ -55,6 +56,7 @@ check(
     assert.ok(!e.unconfirmed);
 
     assert.equal(e.maxJus, 7.5);
+    assert.ok(e.maxArs !== null);
     assert.equal(normalize(formatArs(e.maxArs)), "$ 1.125.470,40");
     assert.match(buildSummary(answers, e), /a .* \(6 a 7,5 JUS\)/);
   },
@@ -63,7 +65,7 @@ check(
 check("every confirmed fee has minJus <= maxJus", () => {
   for (const area of areas) {
     for (const service of area.services) {
-      if (!service.fee) continue;
+      if (!service.fee || service.fee.maxJus === null) continue;
 
       assert.ok(
         service.fee.minJus <= service.fee.maxJus,
@@ -71,6 +73,24 @@ check("every confirmed fee has minJus <= maxJus", () => {
       );
     }
   }
+});
+
+check("open-ended fee (laboral judicial) → desde 1 JUS, any complexity", () => {
+  const e = estimate({
+    ...declaratoria,
+    area: "laboral",
+    service: "judicial",
+    complexity: "conflict",
+  });
+
+  assert.ok(!e.unconfirmed);
+
+  assert.equal(e.maxJus, null);
+
+  const { amount, jus } = estimateText(e);
+
+  assert.equal(normalize(amount), "Desde $ 150.062,72");
+  assert.equal(jus, "desde 1 JUS");
 });
 
 check("every fee: null service → unconfirmed with includes", () => {
