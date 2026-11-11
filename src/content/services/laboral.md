@@ -1,5 +1,5 @@
 ---
-# Draft copy; the lawyer reviews it (backlog B9).
+# Approved by the lawyer (T8).
 title: Laboral
 headline: Conocé tus opciones antes de tomar una decisión laboral.
 summary: Analizamos tu situación laboral, revisamos la documentación disponible y te explicamos las alternativas para reclamar tus derechos o resolver un conflicto. Asesoramos tanto a trabajadores como a empleadores.

@@ -16,6 +16,9 @@
   --color-selected: #eef3ef;
   --color-primary-hover: #1b382d;
   --color-beige-hover: #e4d7c2;
+  /* Status, not brand: only for "this needs an answer" in forms. 6.2:1 on canvas. */
+  --color-error: #b42318;
+  --color-error-bg: #fdf0ee;
 
   --shadow-card: 0 12px 48px rgba(31, 61, 51, 0.08);
   --shadow-hover: 0 4px 12px rgba(31, 61, 51, 0.08);
@@ -130,6 +133,42 @@ a {
   margin-bottom: 16px;
   font-weight: 400;
   line-height: 1.5;
+}
+
+/* Entrance shared by every page (ARCHITECTURE.md "Motion"): 400ms fade + 8px rise, 80ms stagger on
+   card grids. Astro doesn't scope keyframes, so they live here, once. */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* Reduced motion keeps the fade, drops the movement. */
+@media (prefers-reduced-motion: reduce) {
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+}
+
+/* 300ms, shorter than the home hero's 400ms: inner pages replay this on every navigation. */
+.page-hero,
+.page-blocks > * {
+  animation: fade-in 300ms var(--ease-out) both;
+}
+
+.page-blocks > :nth-child(2) {
+  animation-delay: 0.08s;
+}
+
+.page-blocks > :nth-child(3) {
+  animation-delay: 0.16s;
+}
+
+.page-blocks > :nth-child(n + 4) {
+  animation-delay: 0.24s;
 }
 
 .lead {

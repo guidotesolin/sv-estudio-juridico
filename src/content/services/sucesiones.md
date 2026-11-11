@@ -1,12 +1,12 @@
 ---
-# Draft copy; the lawyer reviews it (backlog B9).
+# Approved by the lawyer (T8).
 title: Sucesiones
 headline: Resolvé una herencia con claridad y acompañamiento jurídico.
 summary: Te acompañamos en la organización y tramitación de sucesiones, desde el análisis inicial de la documentación hasta las gestiones necesarias para avanzar con la transmisión de los bienes.
 order: 1
 card:
   title: Sucesiones
-  summary: Herencias y declaratoria
+  summary: Declaratoria de herederos
   icon:
     - "M21 12l-9 -9l-9 9h2v7a2 2 0 0 0 2 2h6"
     - "M9 21v-6a2 2 0 0 1 2 -2h2c.39 0 .754 .112 1.061 .304"

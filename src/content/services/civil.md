@@ -1,11 +1,11 @@
 ---
-# Draft copy; the lawyer reviews it (backlog B9).
-title: Civil y otros asuntos
+# Approved by the lawyer (T8).
+title: Civil y comercial
 headline: Asesoramiento jurídico para tomar decisiones con respaldo.
 summary: Orientación y estrategias para prevenir conflictos, revisar documentación y gestionar controversias personales, patrimoniales y comerciales.
 order: 4
 card:
-  title: Civil y otros
+  title: Civil y comercial
   summary: Contratos y deudas
   icon:
     - "M14 3v4a1 1 0 0 0 1 1h4"

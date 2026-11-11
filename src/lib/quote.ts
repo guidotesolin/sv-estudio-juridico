@@ -1,5 +1,5 @@
-// Quote engine from ARCHITECTURE.md "Quote model". Factors and labels are drafts the lawyer
-// reviews (backlog B9).
+// Quote engine from ARCHITECTURE.md "Quote model". Factors and labels were approved by the lawyer
+// (T8).
 import { areas, JUS_VALUE_ARS, type AreaId } from "../data/prices";
 
 export const stages = [
@@ -20,7 +20,7 @@ export const complexities = [
   { id: "unknown", label: "No sé", factor: 1.5 },
 ] as const;
 
-// Draft from ARCHITECTURE.md "Area questions". None asks for names, ID numbers, amounts or
+// From ARCHITECTURE.md "Area questions", approved by the lawyer (T8). None asks for names, ID numbers, amounts or
 // documents, and answers only ever carry these option labels (never free text): they end up in the
 // booking URL's notes.
 export interface AreaQuestion {
@@ -116,9 +116,10 @@ export type Estimate =
   | {
       unconfirmed: false;
       minJus: number;
-      maxJus: number;
+      // null: open-ended fee ("desde").
+      maxJus: number | null;
       minArs: number;
-      maxArs: number;
+      maxArs: number | null;
       includes: readonly string[];
       excludes: readonly string[];
     }
@@ -193,14 +194,18 @@ export function estimate(answers: QuoteAnswers): Estimate {
   if (!fee) return { unconfirmed: true, includes, excludes };
 
   const minJus = fee.minJus;
-  const maxJus = fee.maxJus * findComplexity(answers.complexity).factor;
+
+  const maxJus =
+    fee.maxJus === null
+      ? null
+      : fee.maxJus * findComplexity(answers.complexity).factor;
 
   return {
     unconfirmed: false,
     minJus,
     maxJus,
     minArs: toArs(minJus),
-    maxArs: toArs(maxJus),
+    maxArs: maxJus === null ? null : toArs(maxJus),
     includes,
     excludes,
   };
@@ -211,6 +216,14 @@ export function estimate(answers: QuoteAnswers): Estimate {
 export function estimateText(e: Estimate) {
   if (e.unconfirmed) {
     return { amount: "Honorarios a confirmar en la consulta", jus: "" };
+  }
+
+  // Both are null together; checking both narrows them for the range below.
+  if (e.maxJus === null || e.maxArs === null) {
+    return {
+      amount: `Desde ${formatArs(e.minArs)}`,
+      jus: `desde ${formatJus(e.minJus)} JUS`,
+    };
   }
 
   if (e.minJus === e.maxJus) {
