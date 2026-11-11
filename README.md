@@ -8,7 +8,7 @@ inheritance, a dismissal, an accident, a contract), understands what the firm ca
 **sees an indicative fee in pesos, and books a paid consultation on their own** — without writing
 a single message.
 
-**[estudiovidoni.com.ar](https://estudiovidoni.com.ar/)** · Versión en español:
+**Live at [estudiovidoni.com.ar](https://estudiovidoni.com.ar/)** · Versión en español:
 [README.es.md](README.es.md)
 
 [![The home page: centered hero with three calls to action over the four practice areas](docs/screenshots/home-desktop.png)](https://estudiovidoni.com.ar/)
@@ -34,6 +34,36 @@ does it cost, when can we meet. The site answers the three:
 
 It asks for no personal data and stores none: the quote runs in the browser, makes no network
 request, and the visitor types their name and email in Cal.com, never in the site's URLs.
+
+## Performance and security
+
+[![PageSpeed Insights on the home page: 100 performance, 100 accessibility, 100 best practices, 100 SEO](docs/screenshots/pagespeed.png)](https://pagespeed.web.dev/analysis/https-estudiovidoni-com-ar/ssy5fw4mms?form_factor=mobile)
+
+The home page under Lighthouse 13.6.0 on 11 November 2026 — the [full report](https://pagespeed.web.dev/analysis/https-estudiovidoni-com-ar/ssy5fw4mms?form_factor=mobile), or
+[run it again yourself](https://pagespeed.web.dev/analysis?url=https%3A%2F%2Festudiovidoni.com.ar). 100 in all four categories, on mobile and on desktop:
+
+|                          | Mobile | Desktop |
+| ------------------------ | ------ | ------- |
+| First Contentful Paint   | 0.8 s  | 0.2 s   |
+| Largest Contentful Paint | 0.8 s  | 0.2 s   |
+| Total Blocking Time      | 0 ms   | 0 ms    |
+| Cumulative Layout Shift  | 0      | 0.003   |
+| Speed Index              | 2.3 s  | 0.4 s   |
+
+The mobile column is an emulated Moto G Power on slow 4G. Two decisions carry those numbers:
+
+- **Nothing loads from another origin.** The font is self-hosted, Cal.com is a link and not an
+  embed, and there is no analytics: even Cloudflare's own beacon is switched off at the zone, since
+  the CSP would refuse it anyway.
+- **Nothing moves after the first paint.** The quote form is in place from the start and only
+  `@media (scripting: none)` hides it when JavaScript is unavailable; showing it from a script used
+  to push the footer down.
+
+[**A+ on securityheaders.com**](https://securityheaders.com/?q=estudiovidoni.com.ar&followRedirects=on): a Content Security Policy of `'self'` for scripts and
+styles with no `'unsafe-inline'`, HSTS, `frame-ancestors 'none'`, `nosniff`, a strict referrer
+policy, and camera, microphone and geolocation turned off. Every script and stylesheet is an
+external file, and `astro.config.mjs` keeps it that way (`inlineStylesheets: "never"`,
+`assetsInlineLimit: 0`).
 
 ## How it is built
 

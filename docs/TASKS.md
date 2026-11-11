@@ -320,7 +320,7 @@ who it belongs to. Shortcuts inside code are `ponytail:` comments instead.
 | B13 | Area answers moving the estimate | v1 sends them as notes only | When the lawyer defines how they weigh |
 | B14 | Email on own domain | Optional cost | When the domain exists (Cloudflare Email Routing for receiving is free) |
 | B15 | SMS/WhatsApp booking reminders | Paid in Cal.com; email reminders are free | If no-shows become a problem |
-| B16 | Blog, analytics, CRM/case management | Out of v1 scope | When there's a concrete need |
+| B16 | Blog, analytics, CRM/case management | Out of v1 scope. Analytics is off on purpose: Cloudflare injected its Web Analytics beacon on the custom domain even with RUM off, so the zone has a Configuration Rule "Disable RUM" (T9). To turn analytics on: delete that rule, enable Web Analytics on the Pages project, redeploy, and add `https://static.cloudflareinsights.com` to `script-src` and `https://cloudflareinsights.com` to `connect-src` in `public/_headers`, plus the privacy note in the footer | When there's a concrete need |
 
 ---
 

@@ -8,7 +8,7 @@ El sitio web de un estudio jurídico de Santa Fe, Argentina. Quien llega con un 
 **ve un honorario orientativo en pesos y reserva una consulta paga por su cuenta**, sin escribir un
 solo mensaje.
 
-**[estudiovidoni.com.ar](https://estudiovidoni.com.ar/)** · English version: [README.md](README.md)
+**En línea en [estudiovidoni.com.ar](https://estudiovidoni.com.ar/)** · English version: [README.md](README.md)
 
 [![La home: hero centrado con tres llamadas a la acción sobre las cuatro áreas](docs/screenshots/home-desktop.png)](https://estudiovidoni.com.ar/)
 
@@ -32,6 +32,35 @@ cuesta, cuándo nos vemos. El sitio responde las tres:
 
 No pide datos personales ni guarda ninguno: la cotización corre en el navegador sin hacer ningún
 pedido a la red, y el nombre y el email se cargan en Cal.com, nunca en las URLs del sitio.
+
+## Rendimiento y seguridad
+
+[![PageSpeed Insights en la home: 100 en rendimiento, accesibilidad, recomendaciones y SEO](docs/screenshots/pagespeed.png)](https://pagespeed.web.dev/analysis/https-estudiovidoni-com-ar/ssy5fw4mms?form_factor=mobile)
+
+La home con Lighthouse 13.6.0 el 11 de noviembre de 2026: el [informe completo](https://pagespeed.web.dev/analysis/https-estudiovidoni-com-ar/ssy5fw4mms?form_factor=mobile), o
+[corrélo de nuevo](https://pagespeed.web.dev/analysis?url=https%3A%2F%2Festudiovidoni.com.ar). 100 en las cuatro categorías, en mobile y en escritorio:
+
+|                          | Mobile | Escritorio |
+| ------------------------ | ------ | ---------- |
+| First Contentful Paint   | 0.8 s  | 0.2 s      |
+| Largest Contentful Paint | 0.8 s  | 0.2 s      |
+| Total Blocking Time      | 0 ms   | 0 ms       |
+| Cumulative Layout Shift  | 0      | 0.003      |
+| Speed Index              | 2.3 s  | 0.4 s      |
+
+La columna mobile es un Moto G Power emulado con 4G lento. Dos decisiones sostienen esos números:
+
+- **Nada se carga desde otro origen.** La tipografía está alojada en el sitio, Cal.com es un link
+  y no un embed, y no hay analytics: hasta el script propio de Cloudflare está apagado en la zona,
+  porque la CSP lo rechazaría igual.
+- **Nada se mueve después de pintar.** El formulario de cotización está en su lugar desde el
+  principio y solo `@media (scripting: none)` lo oculta cuando no hay JavaScript; mostrarlo desde
+  un script empujaba el footer hacia abajo.
+
+[**A+ en securityheaders.com**](https://securityheaders.com/?q=estudiovidoni.com.ar&followRedirects=on): Content Security Policy `'self'` para scripts y estilos, sin
+`'unsafe-inline'`, HSTS, `frame-ancestors 'none'`, `nosniff`, una política de referrer estricta, y
+cámara, micrófono y geolocalización apagados. Todo script y hoja de estilos es un archivo externo, y
+`astro.config.mjs` lo mantiene así (`inlineStylesheets: "never"`, `assetsInlineLimit: 0`).
 
 ## Cómo está hecho
 
