@@ -6,12 +6,26 @@ import { email, whatsappUrl } from "../data/site";
 import { calUrl } from "../lib/booking";
 
 interface Props {
-  title: string;
+  // The page's own name ("Cotizá tu caso"); the layout adds the brand. Omitted on the home.
+  title?: string;
   description: string;
 }
 
 const { title, description } = Astro.props;
+const brand = "SV & ASOC. | Estudio Jurídico";
+const pageTitle = title ? `${title} — ${brand}` : `${brand} — Santa Fe`;
+
+// Link previews already show og:site_name, so og:title skips the brand suffix.
+const ogTitle = title ?? "SV & Asociados · Estudio Jurídico";
 const bookingUrl = calUrl("consulta-inicial");
+
+// Absolute URLs from `site` in astro.config: crawlers and link previews need them.
+const { site } = Astro;
+
+if (!site) throw new Error("BaseLayout needs `site` in astro.config.mjs");
+
+const canonicalUrl = new URL(Astro.url.pathname, site).href;
+const ogImageUrl = new URL("/og.png", site).href;
 
 // Same source and order as the home's area cards, so the footer and the cards can't drift apart.
 const services = (await getCollection("services")).toSorted(
@@ -35,8 +49,19 @@ const navLinks = [
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <title>{title}</title>
+    <title>{pageTitle}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:site_name" content="SV & Asociados · Estudio Jurídico" />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
     <a class="skip-link" href="#main">

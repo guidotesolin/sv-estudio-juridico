@@ -1,0 +1,10 @@
+# Cloudflare Pages headers (ARCHITECTURE.md "Security"). Everything is same-origin: fonts are
+# self-hosted, the one script and every stylesheet are external files (no inline code).
+# HSTS covers the apex only: add includeSubDomains once every subdomain (B14 mail) serves HTTPS.
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+  Strict-Transport-Security: max-age=63072000
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
