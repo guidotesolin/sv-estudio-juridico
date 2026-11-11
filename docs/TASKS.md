@@ -309,7 +309,7 @@ who it belongs to. Shortcuts inside code are `ponytail:` comments instead.
 | B2 | ~~Real fees in JUS~~ | Done in T8: every fee she gave, the consultation and the case-file review (0.5 JUS each), one open-ended ("desde 1 JUS"); four stay "a confirmar" by her decision | — |
 | B3 | ~~Consultation payment method and timing~~ | Done in T8: paid at the end of the meeting, transfer preferred, cash if in person; in the two consultation descriptions on Cal.com, the review fee (0.5 JUS) in the third; profile name "SV & Asociados · Estudio Jurídico" | — |
 | B4 | ~~WhatsApp number and contact email~~ | Done in T8: real WhatsApp and the firm's Gmail in `src/data/site.ts` | — |
-| B5 | Domain `estudiovidoni.com.ar`: DNS delegation to Cloudflare and `site` in `astro.config` | Registered at NIC Argentina in the lawyer's name; the rest is deploy work | T9 |
+| B5 | ~~Domain `estudiovidoni.com.ar`: DNS delegation to Cloudflare and `site` in `astro.config`~~ | Done in T9: delegated to Cloudflare (maintainer's account), served by Pages with `www` → apex 301; registered at NIC Argentina in the lawyer's name | — |
 | B6 | ~~Cal.com account and event types~~ | Done in T8: account, Google Calendar, three event types, end-to-end test booking, profile photo | — |
 | B7 | Fee amounts vs Santa Fe fee law minimums and bar ethics rules | Legal responsibility of the lawyer, not enforced by code | Client |
 | B8 | 2FA and password manager on GitHub, Cloudflare, Cal.com, Google, NIC Argentina | Not code; the real attack surface | Maintainer and client |
