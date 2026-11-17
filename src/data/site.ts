@@ -1,10 +1,12 @@
 // Public contact and booking values; not secrets. The three event slugs must exist in the Cal.com
 // account with these exact names (backlog B6).
-const whatsappNumber = "5493425322212";
+export const whatsappNumber = "5493425322212";
 
 export const whatsappUrl = `https://wa.me/${whatsappNumber}`;
 
 export const email = "estudiojuridicovidoni@gmail.com";
+
+export const instagramUrl = "https://www.instagram.com/estudiovidoni/";
 
 export const calUsername = "estudiovidoni";
 
